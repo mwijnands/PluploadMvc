@@ -2,10 +2,40 @@
     ViewBag.Title = "Home Page";
 }
 
+@section Scripts {
+    <script type="text/javascript">
+
+        var uploader = new plupload.Uploader({
+            browse_button: $('div.jumbotron button[type="button"]')[0],
+            url: '@Url.Action("UploadFiles")'
+        });
+
+        uploader.init();
+
+        uploader.bind('FilesAdded', function (up, files) {
+            var html = $('div.jumbotron .filelist').html();
+            plupload.each(files, function (file) {
+                html += '<li id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></li>';
+            });
+            $('div.jumbotron .filelist').html(html);
+            up.start();
+        });
+
+    </script>
+}
+
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h3>PluploadMvc Sample</h3>
+
+    <form action="@Url.Action("SubmitForm")" method="post">
+
+        <ul class="filelist"></ul>
+
+        <button type="button">Browse...</button>
+        <button type="submit">Submit</button>
+
+    </form>
+
 </div>
 
 <div class="row">

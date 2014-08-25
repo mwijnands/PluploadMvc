@@ -26,5 +26,20 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
 
             return View();
         }
+
+        [HttpPost]
+        public ActionResult SubmitForm()
+        {
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult UploadFiles()
+        {
+
+            return Content("OK");
+        }
+
     }
 }
