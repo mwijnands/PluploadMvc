@@ -1,4 +1,6 @@
-﻿@{
+﻿@model XperiCode.PluploadMvc.Sample.Models.HomeIndexViewModel
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -7,7 +9,7 @@
 
         var uploader = new plupload.Uploader({
             browse_button: $('div.jumbotron button[type="button"]')[0],
-            url: '@Url.Action("UploadFiles")'
+            url: '@Url.Action("UploadFiles", new { reference = @Model.UploadReference })'
         });
 
         uploader.init();
@@ -28,6 +30,8 @@
     <h3>PluploadMvc Sample</h3>
 
     <form action="@Url.Action("SubmitForm")" method="post">
+
+        @Html.HiddenFor(m => m.UploadReference)
 
         <ul class="filelist"></ul>
 
