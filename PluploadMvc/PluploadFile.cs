@@ -8,19 +8,29 @@ using System.Web;
 
 namespace XperiCode.PluploadMvc
 {
-    public class PluploadFile : HttpPostedFileBase
+    public class PluploadFile : HttpPostedFileBase, IDisposable
     {
+        public const string ContentTypeExtension = ".contenttype";
+
+        private readonly string _fileNamePath;
+        private readonly string _contentTypeFileNamePath;
         private readonly string _fileName;
-        private readonly Stream _fileStream;
+        private readonly FileStream _fileStream;
         private readonly string _contentType;
         private readonly int _contentLength;
 
-        public PluploadFile(string fileName, Stream fileStream, string contentType)
+        public PluploadFile(string fileNamePath)
         {
-            this._fileName = fileName;
-            this._fileStream = fileStream;
-            this._contentType = contentType;
-            this._contentLength = Convert.ToInt32(fileStream.Length);
+            this._fileNamePath = fileNamePath;
+            this._contentTypeFileNamePath = string.Concat(fileNamePath, ContentTypeExtension);
+            this._fileName = Path.GetFileName(fileNamePath);
+            this._fileStream = File.OpenRead(fileNamePath);
+            this._contentLength = Convert.ToInt32(this._fileStream.Length);
+
+            if (File.Exists(this._contentTypeFileNamePath))
+            {
+                this._contentType = File.ReadAllText(this._contentTypeFileNamePath);
+            }
         }
 
         public override string FileName
@@ -54,7 +64,60 @@ namespace XperiCode.PluploadMvc
                 return _contentType;
             }
         }
-        // TODO: override contentlength and contenttype, save these values to a json file when uploaded (next te uploaded file)
-        //       check SaveAs method.
+
+        public override void SaveAs(string filename)
+        {
+            using (var fileStream = File.Create(filename))
+            {
+                this._fileStream.Seek(0, SeekOrigin.Begin);
+                this._fileStream.CopyTo(fileStream);
+            }
+        }
+
+        #region IDisposable Members
+
+        private Boolean _disposed;
+
+        private void Dispose(Boolean disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (this._fileStream != null)
+                {
+                    this._fileStream.Dispose();
+
+                    try
+                    {
+                        File.Delete(this._fileNamePath);
+                    }
+                    catch (Exception)
+                    {
+                    }
+
+                    try
+                    {
+                        File.Delete(this._contentTypeFileNamePath);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+
+            _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        #endregion
     }
 }
