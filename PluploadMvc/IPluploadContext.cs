@@ -9,5 +9,6 @@ namespace XperiCode.PluploadMvc
     {
         void SaveFile(HttpPostedFileBase file, Guid reference);
         IEnumerable<HttpPostedFileBase> GetFiles(Guid reference);
+        void DeleteFiles(Guid reference);
     }
 }

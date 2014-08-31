@@ -17,15 +17,24 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
         [HttpPost]
         public ActionResult SubmitForm1(HomeIndexViewModel model)
         {
-            var files1 = HttpContext.GetPluploadContext().GetFiles(model.UploadReference1);
-            var files2 = HttpContext.GetPluploadContext().GetFiles(model.UploadReference2);
+            var pluploadContext = HttpContext.GetPluploadContext();
+
+            var files1 = pluploadContext.GetFiles(model.UploadReference1).ToList();
+            var files2 = pluploadContext.GetFiles(model.UploadReference2).ToList();
+
+            pluploadContext.DeleteFiles(model.UploadReference1);
+            pluploadContext.DeleteFiles(model.UploadReference2);
+
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult UploadFile(HttpPostedFileBase file, Guid reference)
         {
-            HttpContext.GetPluploadContext().SaveFile(file, reference);
+            var pluploadContext = HttpContext.GetPluploadContext();
+
+            pluploadContext.SaveFile(file, reference);
+
             return Content("OK");
         }
     }
