@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace XperiCode.PluploadMvc
@@ -90,7 +88,10 @@ namespace XperiCode.PluploadMvc
                 if (this._fileStream != null)
                 {
                     this._fileStream.Dispose();
+                }
 
+                if (File.Exists(this._fileNamePath))
+                {
                     try
                     {
                         File.Delete(this._fileNamePath);
@@ -98,7 +99,10 @@ namespace XperiCode.PluploadMvc
                     catch (Exception)
                     {
                     }
+                }
 
+                if (File.Exists(this._contentTypeFileNamePath))
+                {
                     try
                     {
                         File.Delete(this._contentTypeFileNamePath);
