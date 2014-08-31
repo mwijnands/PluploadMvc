@@ -10,8 +10,6 @@ namespace XperiCode.PluploadMvc
     {
         public const string ContentTypeExtension = ".contenttype";
 
-        private readonly string _fileNamePath;
-        private readonly string _contentTypeFileNamePath;
         private readonly string _fileName;
         private readonly FileStream _fileStream;
         private readonly string _contentType;
@@ -19,15 +17,14 @@ namespace XperiCode.PluploadMvc
 
         public PluploadFile(string fileNamePath)
         {
-            this._fileNamePath = fileNamePath;
-            this._contentTypeFileNamePath = string.Concat(fileNamePath, ContentTypeExtension);
             this._fileName = Path.GetFileName(fileNamePath);
             this._fileStream = File.OpenRead(fileNamePath);
             this._contentLength = Convert.ToInt32(this._fileStream.Length);
 
-            if (File.Exists(this._contentTypeFileNamePath))
+            string contentTypeFileNamePath = string.Concat(fileNamePath, ContentTypeExtension);
+            if (File.Exists(contentTypeFileNamePath))
             {
-                this._contentType = File.ReadAllText(this._contentTypeFileNamePath);
+                this._contentType = File.ReadAllText(contentTypeFileNamePath);
             }
         }
 
@@ -88,28 +85,6 @@ namespace XperiCode.PluploadMvc
                 if (this._fileStream != null)
                 {
                     this._fileStream.Dispose();
-                }
-
-                if (File.Exists(this._fileNamePath))
-                {
-                    try
-                    {
-                        File.Delete(this._fileNamePath);
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }
-
-                if (File.Exists(this._contentTypeFileNamePath))
-                {
-                    try
-                    {
-                        File.Delete(this._contentTypeFileNamePath);
-                    }
-                    catch (Exception)
-                    {
-                    }
                 }
             }
 
