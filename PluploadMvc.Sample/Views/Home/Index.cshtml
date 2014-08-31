@@ -9,7 +9,7 @@
 
         var uploader = new plupload.Uploader({
             browse_button: $('div.jumbotron button[type="button"]')[0],
-            url: '@Url.Action("UploadFiles", new { reference = @Model.UploadReference })'
+            url: '@Url.Action("UploadFile", new { reference = @Model.UploadReference })'
         });
 
         uploader.init();

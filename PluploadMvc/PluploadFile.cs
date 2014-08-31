@@ -17,6 +17,11 @@ namespace XperiCode.PluploadMvc
 
         public PluploadFile(string fileNamePath)
         {
+            if (!File.Exists(fileNamePath))
+            {
+                return;
+            }
+
             this._fileName = Path.GetFileName(fileNamePath);
             this._fileStream = File.OpenRead(fileNamePath);
             this._contentLength = Convert.ToInt32(this._fileStream.Length);
