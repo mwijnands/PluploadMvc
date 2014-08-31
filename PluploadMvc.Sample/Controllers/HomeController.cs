@@ -17,14 +17,8 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
         [HttpPost]
         public ActionResult SubmitForm1(HomeIndexViewModel model)
         {
-            var files = HttpContext.GetPluploadContext().GetFiles(model.UploadReference);
-            return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        public ActionResult SubmitForm2(HomeIndexViewModel model)
-        {
-            var files = HttpContext.GetPluploadContext().GetFiles(model.UploadReference);
+            var files1 = HttpContext.GetPluploadContext().GetFiles(model.UploadReference1);
+            var files2 = HttpContext.GetPluploadContext().GetFiles(model.UploadReference2);
             return RedirectToAction("Index");
         }
 
