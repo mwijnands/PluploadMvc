@@ -13,8 +13,11 @@
             var $container = $(this);
 
             var uploader = new plupload.Uploader({
+                runtimes: 'silverlight',
                 browse_button: $container.find('.plupload-select')[0],
-                url: $container.data('plupload-url')
+                url: $container.data('plupload-url'),
+                flash_swf_url: '/Scripts/Moxie.swf',
+                silverlight_xap_url: '/Scripts/Moxie.xap'
             });
 
             uploader.init();
