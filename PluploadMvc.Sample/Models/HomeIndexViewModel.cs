@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace XperiCode.PluploadMvc.Sample.Models
@@ -11,6 +11,9 @@ namespace XperiCode.PluploadMvc.Sample.Models
             UploadReference = Guid.NewGuid();
         }
 
+        public string Text { get; set; }
+
+        [Display(Name = "Files")]
         public Guid UploadReference { get; set; }
     }
 }

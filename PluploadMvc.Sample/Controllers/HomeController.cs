@@ -14,22 +14,15 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
             return View(model);
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult SubmitForm1(HomeIndexViewModel model)
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            var files = HttpContext.GetPluploadContext().GetFiles(model.UploadReference);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public ActionResult SubmitForm(HomeIndexViewModel model)
+        public ActionResult SubmitForm2(HomeIndexViewModel model)
         {
             var files = HttpContext.GetPluploadContext().GetFiles(model.UploadReference);
             return RedirectToAction("Index");

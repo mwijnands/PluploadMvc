@@ -5,61 +5,56 @@
 }
 
 @section Scripts {
+
     <script type="text/javascript">
 
-        var uploader = new plupload.Uploader({
-            browse_button: $('div.jumbotron button[type="button"]')[0],
+        var uploader1 = new plupload.Uploader({
+            browse_button: $('.plupload-select')[0],
             url: '@Url.Action("UploadFile", new { reference = @Model.UploadReference })'
         });
 
-        uploader.init();
+        uploader1.init();
 
-        uploader.bind('FilesAdded', function (up, files) {
-            var html = $('div.jumbotron .filelist').html();
+        uploader1.bind('FilesAdded', function (up, files) {
+            var $filelist = $('.plupload-filelist');
+            var html = $filelist.html();
             plupload.each(files, function (file) {
-                html += '<li id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></li>';
+                html += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ')</div>';
             });
-            $('div.jumbotron .filelist').html(html);
+            $filelist.html(html);
             up.start();
         });
 
     </script>
+
 }
 
-<div class="jumbotron">
-    <h3>PluploadMvc Sample</h3>
-
-    <form action="@Url.Action("SubmitForm")" method="post">
-
-        @Html.HiddenFor(m => m.UploadReference)
-
-        <ul class="filelist"></ul>
-
-        <button type="button">Browse...</button>
-        <button type="submit">Submit</button>
-
-    </form>
-
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+@using (Html.BeginForm("SubmitForm1", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Sample form 1</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Text, new { @class = "col-md-1 control-label" })
+        <div class="col-md-11">
+            @Html.TextBoxFor(m => m.Text, new { @class = "form-control" })
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    <div class="form-group">
+        @Html.LabelFor(m => m.UploadReference, new { @class = "col-md-1 control-label" })
+        <div class="col-md-11">
+            @Html.HiddenFor(m => m.UploadReference)
+            <div class="form-control pull-left plupload-filelist" style="max-width: 280px; margin-right: 12px; min-height: 34px; height: auto;">
+            </div>
+            <div class="pull-left">
+                <input type="button" class="btn btn-default plupload-select" value="Select" />
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="form-group">
+        <div class="col-md-offset-1 col-md-11">
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
     </div>
-</div>
+}

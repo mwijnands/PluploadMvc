@@ -35,6 +35,7 @@ namespace XperiCode.PluploadMvc
             string uploadPath = GetUploadPath(reference);
             if (!Directory.Exists(uploadPath))
             {
+                yield break;
             }
 
             var fileNamePaths = Directory.GetFiles(uploadPath).Where(p => !p.EndsWith(PluploadFile.ContentTypeExtension));
