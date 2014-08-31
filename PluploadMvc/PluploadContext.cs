@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 
 namespace XperiCode.PluploadMvc
 {
@@ -16,7 +15,7 @@ namespace XperiCode.PluploadMvc
             _httpContext = httpContext;
         }
 
-        public ContentResult SaveFile(HttpPostedFileBase file, Guid reference)
+        public void SaveFile(HttpPostedFileBase file, Guid reference)
         {
             string uploadPath = GetUploadPath(reference);
             if (!Directory.Exists(uploadPath))
@@ -29,11 +28,6 @@ namespace XperiCode.PluploadMvc
 
             string contentTypeSavePath = string.Concat(fileSavePath, PluploadFile.ContentTypeExtension);
             System.IO.File.WriteAllText(contentTypeSavePath, file.ContentType);
-
-            return new ContentResult
-            {
-                Content = "OK"
-            };
         }
 
         public IEnumerable<HttpPostedFileBase> GetFiles(Guid reference)

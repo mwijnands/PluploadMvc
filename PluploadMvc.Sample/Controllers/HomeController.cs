@@ -38,8 +38,8 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
         [HttpPost]
         public ActionResult UploadFile(HttpPostedFileBase file, Guid reference)
         {
-            return HttpContext.GetPluploadContext().SaveFile(file, reference);
+            HttpContext.GetPluploadContext().SaveFile(file, reference);
+            return Content("OK");
         }
-  
     }
 }
