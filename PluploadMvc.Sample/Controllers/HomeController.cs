@@ -10,12 +10,23 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
     {
         public ActionResult Index()
         {
-            var model = new HomeIndexViewModel();
+            return View();
+        }
+
+        public ActionResult SampleForm1()
+        {
+            var model = new SampleForm1Model();
+            return View(model);
+        }
+
+        public ActionResult SampleForm2()
+        {
+            var model = new SampleForm2Model();
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult SubmitForm1(HomeIndexViewModel model)
+        public ActionResult SubmitForm1(SampleForm1Model model)
         {
             var pluploadContext = HttpContext.GetPluploadContext();
 
@@ -25,7 +36,21 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
             pluploadContext.DeleteFiles(model.UploadReference1);
             pluploadContext.DeleteFiles(model.UploadReference2);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("SampleForm1");
+        }
+
+        [HttpPost]
+        public ActionResult SubmitForm2(SampleForm2Model model)
+        {
+            var files1 = model.Files;
+            var files2 = model.OtherFiles;
+
+            var pluploadContext = HttpContext.GetPluploadContext();
+
+            pluploadContext.DeleteFiles(model.Files.Reference);
+            pluploadContext.DeleteFiles(model.OtherFiles.Reference);
+
+            return RedirectToAction("SampleForm2");
         }
 
         [HttpPost]

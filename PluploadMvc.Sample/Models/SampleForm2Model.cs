@@ -4,21 +4,21 @@ using System.Linq;
 
 namespace XperiCode.PluploadMvc.Sample.Models
 {
-    public class HomeIndexViewModel
+    public class SampleForm2Model
     {
-        public HomeIndexViewModel()
+        public SampleForm2Model()
         {
-            UploadReference1 = Guid.NewGuid();
-            UploadReference2 = Guid.NewGuid();
+            Files = new PluploadFileCollection();
+            OtherFiles = new PluploadFileCollection();
         }
 
         [Display(Name = "Some text")]
         public string Text { get; set; }
 
         [Display(Name = "Some files")]
-        public Guid UploadReference1 { get; set; }
+        public PluploadFileCollection Files { get; set; }
 
         [Display(Name = "Some other files")]
-        public Guid UploadReference2 { get; set; }
+        public PluploadFileCollection OtherFiles { get; set; }
     }
 }

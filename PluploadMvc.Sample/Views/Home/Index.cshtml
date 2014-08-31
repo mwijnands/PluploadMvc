@@ -1,84 +1,13 @@
-﻿@model XperiCode.PluploadMvc.Sample.Models.HomeIndexViewModel
+﻿@model XperiCode.PluploadMvc.Sample.Models.SampleForm1Model
 
 @{
     ViewBag.Title = "Home Page";
 }
 
-@section Scripts {
+<div class="jumbotron">
+    <h3>PluploadMvc Sample</h3>
 
-    <script type="text/javascript">
+    <div>@Html.ActionLink("Sample form 1", "SampleForm1", "Home")</div>
+    <div>@Html.ActionLink("Sample form 2", "SampleForm2", "Home")</div>
 
-        $('.plupload-control').each(function () {
-
-            var $container = $(this);
-
-            var uploader = new plupload.Uploader({
-                runtimes: 'silverlight',
-                browse_button: $container.find('.plupload-select')[0],
-                url: $container.data('plupload-url'),
-                flash_swf_url: '/Scripts/Moxie.swf',
-                silverlight_xap_url: '/Scripts/Moxie.xap'
-            });
-
-            uploader.init();
-
-            uploader.bind('FilesAdded', function (up, files) {
-                var $filelist = $container.find('.plupload-filelist');
-                var html = $filelist.html();
-                plupload.each(files, function (file) {
-                    html += '<div id="' + file.id + '" title="' + file.name + '" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + file.name + '</div>';
-                });
-                $filelist.html(html);
-                up.start();
-            });
-
-        });
-
-    </script>
-
-}
-
-@using (Html.BeginForm("SubmitForm1", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Sample form 1</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Text, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Text, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.UploadReference1, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            <div class="plupload-control" data-plupload-url="@Url.Action("UploadFile", new { reference = @Model.UploadReference1 })">
-                @Html.HiddenFor(m => m.UploadReference1)
-                <div class="form-control pull-left plupload-filelist" style="max-width: 280px; margin-right: 12px; min-height: 34px; height: auto;">
-                </div>
-                <div class="pull-left">
-                    <input type="button" class="btn btn-default plupload-select" value="Select" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.UploadReference2, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            <div class="plupload-control" data-plupload-url="@Url.Action("UploadFile", new { reference = @Model.UploadReference2 })">
-                @Html.HiddenFor(m => m.UploadReference2)
-                <div class="form-control pull-left plupload-filelist" style="max-width: 280px; margin-right: 12px; min-height: 34px; height: auto;">
-                </div>
-                <div class="pull-left">
-                    <input type="button" class="btn btn-default plupload-select" value="Select" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-primary" value="Submit" />
-        </div>
-    </div>
-}
+</div>

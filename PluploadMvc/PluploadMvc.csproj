@@ -49,6 +49,7 @@
     <Compile Include="PluploadContext.cs" />
     <Compile Include="PluploadExtensions.cs" />
     <Compile Include="PluploadFile.cs" />
+    <Compile Include="PluploadFileCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
