@@ -53,8 +53,8 @@
     <div class="form-group">
         @Html.LabelFor(m => m.Files, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <div class="plupload-control" data-plupload-url="@Url.Action("UploadFile", new { reference = @Model.Files })">
-                @Html.HiddenFor(m => m.Files)
+            <div class="plupload-control" data-plupload-url="@Url.Action("UploadFile", new { reference = @Model.Files.Reference })">
+                @Html.HiddenFor(m => m.Files.Reference)
                 <div class="form-control pull-left plupload-filelist" style="max-width: 280px; margin-right: 12px; min-height: 34px; height: auto;">
                 </div>
                 <div class="pull-left">
@@ -66,8 +66,8 @@
     <div class="form-group">
         @Html.LabelFor(m => m.OtherFiles, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <div class="plupload-control" data-plupload-url="@Url.Action("UploadFile", new { reference = @Model.OtherFiles })">
-                @Html.HiddenFor(m => m.OtherFiles)
+            <div class="plupload-control" data-plupload-url="@Url.Action("UploadFile", new { reference = @Model.OtherFiles.Reference })">
+                @Html.HiddenFor(m => m.OtherFiles.Reference)
                 <div class="form-control pull-left plupload-filelist" style="max-width: 280px; margin-right: 12px; min-height: 34px; height: auto;">
                 </div>
                 <div class="pull-left">
