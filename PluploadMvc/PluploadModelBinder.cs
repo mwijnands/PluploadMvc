@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 
 namespace XperiCode.PluploadMvc
@@ -8,7 +9,8 @@ namespace XperiCode.PluploadMvc
     {
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            string referenceKey = string.Concat(bindingContext.ModelName, ".Reference");
+            string referencePropertyName = GetPropertyName(() => ((PluploadFileCollection)bindingContext.Model).Reference);
+            string referenceKey = string.Format("{0}.{1}", bindingContext.ModelName, referencePropertyName);
             Guid reference = Guid.Parse(bindingContext.ValueProvider.GetValue(referenceKey).AttemptedValue);
 
             var pluploadContext = controllerContext.HttpContext.GetPluploadContext();
@@ -19,5 +21,15 @@ namespace XperiCode.PluploadMvc
                 Reference = reference
             };
         }
+
+        public static string GetPropertyName<T>(Expression<Func<T>> expression)
+        {
+            var body = expression.Body as MemberExpression;
+            if (body != null)
+            {
+                return body.Member.Name;
+            }
+            return string.Empty;
+        }    
     }
 }
