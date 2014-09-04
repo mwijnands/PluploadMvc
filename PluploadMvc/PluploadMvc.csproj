@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PluploadHandler.cs" />
     <Compile Include="PluploadModelBinder.cs" />
     <Compile Include="IPluploadContext.cs" />
     <Compile Include="PluploadContext.cs" />

@@ -52,15 +52,5 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
 
             return RedirectToAction("SampleForm2");
         }
-
-        [HttpPost]
-        public ActionResult UploadFile(HttpPostedFileBase file, Guid reference)
-        {
-            var pluploadContext = HttpContext.GetPluploadContext();
-
-            pluploadContext.SaveFile(file, reference);
-
-            return Content("OK");
-        }
     }
 }
