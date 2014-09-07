@@ -55,6 +55,12 @@ namespace XperiCode.PluploadMvc.Tests
                     Assert.AreEqual(file.ContentLength, httpPostedFileMock.Object.ContentLength);
                     Assert.AreEqual(file.ContentType, httpPostedFileMock.Object.ContentType);
                     Assert.AreEqual(file.InputStream.Length, httpPostedFileMock.Object.InputStream.Length);
+
+                    // TODO: Split up this test in separate tests for saving, getting and deleting.
+                    pluploadContext.DeleteFiles(reference);
+
+                    Assert.AreEqual(0, pluploadContext.GetFiles(reference).Count());
+                    Assert.AreEqual(0, Directory.GetFiles(uploadPath).Count());
                 }
             }
 
@@ -62,9 +68,9 @@ namespace XperiCode.PluploadMvc.Tests
             {
                 Directory.Delete(uploadPath, true);
             }
-            catch (Exception)
+            catch (IOException)
             {
-                // Could happen..
+                // Files could always be in use by virusscanners and what not.. So ignore it.
             }
         }
     }

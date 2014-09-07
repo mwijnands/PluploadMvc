@@ -22,7 +22,7 @@ namespace XperiCode.PluploadMvc
             };
         }
 
-        public static string GetPropertyName<T>(Expression<Func<T>> expression)
+        private static string GetPropertyName<T>(Expression<Func<T>> expression)
         {
             var body = expression.Body as MemberExpression;
             if (body != null)

@@ -10,7 +10,7 @@ namespace XperiCode.PluploadMvc
 
         public static IPluploadContext GetPluploadContext(this HttpContextBase httpContext)
         {
-            var context = httpContext.Items[PluploadContextKey] as PluploadContext;
+            var context = httpContext.Items[PluploadContextKey] as IPluploadContext;
             if (context == null)
             {
                 context = new PluploadContext(httpContext);

@@ -28,7 +28,9 @@ namespace XperiCode.PluploadMvc.Tests
             httpContextMock.SetupGet(c => c.Items).Returns(new ListDictionary());
             var httpContext = httpContextMock.Object;
 
-            var newPluploadContext = new PluploadContext(httpContext);
+            var pluploadContextMock = new Mock<IPluploadContext>();
+            var newPluploadContext = pluploadContextMock.Object;
+
             httpContext.SetPluploadContext(newPluploadContext);
             var pluploadContext = httpContext.GetPluploadContext();
 

@@ -86,8 +86,9 @@ namespace XperiCode.PluploadMvc
                 {
                     File.Delete(fileNamePath);
                 }
-                catch (Exception)
+                catch (IOException)
                 {
+                    // Files could always be in use by virusscanners and what not.. So ignore it.
                 }
             }
 
@@ -95,8 +96,9 @@ namespace XperiCode.PluploadMvc
             {
                 Directory.Delete(uploadPath, true);
             }
-            catch (Exception)
+            catch (IOException)
             {
+                // Files could always be in use by virusscanners and what not.. So ignore it.
             }
         }
 
