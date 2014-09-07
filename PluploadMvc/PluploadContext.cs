@@ -28,7 +28,11 @@ namespace XperiCode.PluploadMvc
             }
 
             string fileSavePath = Path.Combine(uploadPath, Path.GetFileName(file.FileName));
-            file.SaveAs(fileSavePath);
+            using (var fileStream = File.Create(fileSavePath))
+            {
+                file.InputStream.Seek(0, SeekOrigin.Begin);
+                file.InputStream.CopyTo(fileStream);
+            }
 
             string contentTypeSavePath = string.Concat(fileSavePath, PluploadFile.ContentTypeExtension);
             File.WriteAllText(contentTypeSavePath, file.ContentType);

@@ -36,7 +36,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1408.0717\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -51,7 +55,19 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="PluploadContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PluploadFileCollectionTests.cs" />
+    <Compile Include="PluploadExtensionsTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PluploadMvc\PluploadMvc.csproj">
+      <Project>{645889ED-EC48-4D46-892C-E12D13B20B41}</Project>
+      <Name>PluploadMvc</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
