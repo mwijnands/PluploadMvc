@@ -28,6 +28,11 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
         [HttpPost]
         public ActionResult SubmitForm1(SampleForm1Model model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("SampleForm1", model);
+            }
+
             var pluploadContext = HttpContext.GetPluploadContext();
 
             var files1 = pluploadContext.GetFiles(model.UploadReference1).ToList();
@@ -42,13 +47,18 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
         [HttpPost]
         public ActionResult SubmitForm2(SampleForm2Model model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("SampleForm2", model);
+            }
+
             var files1 = model.Files;
             var files2 = model.OtherFiles;
 
             var pluploadContext = HttpContext.GetPluploadContext();
 
-            pluploadContext.DeleteFiles(model.Files.Reference);
-            pluploadContext.DeleteFiles(model.OtherFiles.Reference);
+            pluploadContext.DeleteFiles(model.Files);
+            pluploadContext.DeleteFiles(model.OtherFiles);
 
             return RedirectToAction("SampleForm2");
         }

@@ -48,6 +48,7 @@
         @Html.LabelFor(m => m.Text, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Text, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Text, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
@@ -60,6 +61,7 @@
                 <div class="pull-left">
                     <input type="button" class="btn btn-default plupload-select" value="Select" />
                 </div>
+                @Html.ValidationMessageFor(m => m.UploadReference1, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
@@ -73,6 +75,7 @@
                 <div class="pull-left">
                     <input type="button" class="btn btn-default plupload-select" value="Select" />
                 </div>
+                @Html.ValidationMessageFor(m => m.UploadReference2, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>

@@ -23,6 +23,11 @@ textarea {
     max-width: 280px;
 }
 
+span.field-validation-error {
+    display: block;
+    clear:both;
+}
+
 div.plupload-filelist {
     max-width: 280px;
     margin-right: 12px;

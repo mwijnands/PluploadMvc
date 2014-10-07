@@ -102,6 +102,11 @@ namespace XperiCode.PluploadMvc
             }
         }
 
+        public void DeleteFiles(PluploadFileCollection collection)
+        {
+            this.DeleteFiles(collection.Reference);
+        }
+
         private string GetUploadPath(Guid reference)
         {
             return Path.Combine(_httpContext.Server.MapPath("~/App_Data/PluploadMvc"), reference.ToString());
