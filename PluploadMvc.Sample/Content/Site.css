@@ -22,3 +22,18 @@ select,
 textarea {
     max-width: 280px;
 }
+
+div.plupload-filelist {
+    max-width: 280px;
+    margin-right: 12px;
+    min-height: 34px;
+    height: auto;
+}
+
+    div.plupload-filelist div.plupload-file {
+        overflow: hidden;
+        -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }

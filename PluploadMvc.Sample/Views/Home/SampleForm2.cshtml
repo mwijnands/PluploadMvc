@@ -26,7 +26,7 @@
                 var $filelist = $container.find('.plupload-filelist');
                 var html = $filelist.html();
                 plupload.each(files, function (file) {
-                    html += '<div id="' + file.id + '" title="' + file.name + '" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' + file.name + '</div>';
+                    html += '<div id="' + file.id + '" title="' + file.name + '" class="plupload-file">' + file.name + '</div>';
                 });
                 $filelist.html(html);
                 up.start();
@@ -55,7 +55,7 @@
         <div class="col-md-10">
             <div class="plupload-control" data-plupload-url="@Url.Content("~/Plupload.axd?reference=" + Model.Files.Reference)">
                 @Html.HiddenFor(m => m.Files.Reference)
-                <div class="form-control pull-left plupload-filelist" style="max-width: 280px; margin-right: 12px; min-height: 34px; height: auto;">
+                <div class="form-control pull-left plupload-filelist">
                 </div>
                 <div class="pull-left">
                     <input type="button" class="btn btn-default plupload-select" value="Select" />
@@ -68,7 +68,7 @@
         <div class="col-md-10">
             <div class="plupload-control" data-plupload-url="@Url.Content("~/Plupload.axd?reference=" + Model.OtherFiles.Reference)">
                 @Html.HiddenFor(m => m.OtherFiles.Reference)
-                <div class="form-control pull-left plupload-filelist" style="max-width: 280px; margin-right: 12px; min-height: 34px; height: auto;">
+                <div class="form-control pull-left plupload-filelist">
                 </div>
                 <div class="pull-left">
                     <input type="button" class="btn btn-default plupload-select" value="Select" />
