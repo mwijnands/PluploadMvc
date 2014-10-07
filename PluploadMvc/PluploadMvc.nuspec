@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <title>PluploadMvc</title>
+    <version>$version$</version>
+    <authors>Marcel Wijnands</authors>
+    <projectUrl>http://pluploadmvc.xpericode.com/</projectUrl>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <description>$description$</description>
+    <copyright>$copyright$</copyright>
+    <tags>Plupload PluploadMvc</tags>
+    <dependencies>
+      <dependency id="WebActivatorEx" version="2.0.0.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="PluploadMvcConfig.cs.pp" target="content\App_Start" />
+    <file src="Web.config.transform" target="content" />
+  </files>
+</package>

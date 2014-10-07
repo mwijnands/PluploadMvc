@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <system.webServer>
+    <handlers>
+      <add name="PluploadHandler" path="Plupload.axd" verb="POST" type="XperiCode.PluploadMvc.PluploadHandler, XperiCode.PluploadMvc" />
+    </handlers>
+  </system.webServer>
+</configuration>
