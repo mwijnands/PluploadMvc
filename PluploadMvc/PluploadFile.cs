@@ -14,14 +14,16 @@ namespace XperiCode.PluploadMvc
         private readonly FileStream _fileStream;
         private readonly string _contentType;
         private readonly int _contentLength;
+        private readonly Guid _reference;
 
-        public PluploadFile(string fileNamePath)
+        public PluploadFile(string fileNamePath, Guid reference)
         {
             if (!File.Exists(fileNamePath))
             {
                 return;
             }
 
+            this._reference = reference;
             this._fileName = Path.GetFileName(fileNamePath);
             this._fileStream = File.OpenRead(fileNamePath);
             this._contentLength = Convert.ToInt32(this._fileStream.Length);
@@ -30,6 +32,14 @@ namespace XperiCode.PluploadMvc
             if (File.Exists(contentTypeFileNamePath))
             {
                 this._contentType = File.ReadAllText(contentTypeFileNamePath);
+            }
+        }
+
+        internal Guid Reference 
+        { 
+            get
+            {
+                return _reference;
             }
         }
 

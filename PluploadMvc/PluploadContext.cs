@@ -57,7 +57,7 @@ namespace XperiCode.PluploadMvc
                 }
                 else
                 {
-                    file = new PluploadFile(fileNamePath);
+                    file = new PluploadFile(fileNamePath, reference);
                     _files.Add(fileNamePath, file);
                 }
 
@@ -67,11 +67,12 @@ namespace XperiCode.PluploadMvc
 
         public void DeleteFiles(Guid reference)
         {
-            foreach (var file in _files.Values)
+            var files = _files.Where(f => f.Value.Reference == reference).ToArray();
+            foreach (var file in files)
             {
-                file.Dispose();
+                file.Value.Dispose();
+                _files.Remove(file);
             }
-            _files.Clear();
 
             string uploadPath = GetUploadPath(reference);
             if (!Directory.Exists(uploadPath))
