@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using XperiCode.PluploadMvc.Sample.Models;
 
@@ -26,6 +25,7 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SubmitForm1(SampleForm1Model model)
         {
             if (!ModelState.IsValid)
@@ -45,6 +45,7 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult SubmitForm2(SampleForm2Model model)
         {
             if (!ModelState.IsValid)

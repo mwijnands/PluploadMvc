@@ -1,0 +1,10 @@
+﻿@model XperiCode.PluploadMvc.PluploadFileCollection
+
+<div class="plupload-control" data-plupload-url="@Url.Content("~/Plupload.axd?reference=" + Model)">
+    @Html.HiddenFor(m => m)
+    <div class="form-control pull-left plupload-filelist">
+    </div>
+    <div class="pull-left">
+        <input type="button" class="btn btn-default plupload-select" value="Select" />
+    </div>
+</div>

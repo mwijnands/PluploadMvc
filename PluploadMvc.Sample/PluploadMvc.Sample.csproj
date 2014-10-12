@@ -141,6 +141,7 @@
     <Content Include="Scripts\Moxie.xap" />
     <Content Include="Scripts\plupload.full.js" />
     <Content Include="Scripts\plupload.full.min.js" />
+    <Content Include="Scripts\pluploadmvc.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -159,6 +160,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\SampleForm2.cshtml" />
     <Content Include="Views\Home\SampleForm1.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\PluploadFileCollection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
