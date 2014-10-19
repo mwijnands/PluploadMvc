@@ -18,6 +18,7 @@ namespace XperiCode.PluploadMvc.Sample
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             ModelBinders.Binders.Add(typeof(PluploadFileCollection), new PluploadModelBinder());
+            PluploadContext.CleanupFiles();
         }
     }
 }

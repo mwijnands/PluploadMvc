@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 
 namespace XperiCode.PluploadMvc
 {
     public class PluploadContext : IPluploadContext, IDisposable
     {
+        internal const string UploadVirtualPath = "~/App_Data/PluploadMvc";
+
         private readonly HttpContextBase _httpContext;
         private readonly IDictionary<string, PluploadFile> _files;
 
@@ -108,9 +111,44 @@ namespace XperiCode.PluploadMvc
             this.DeleteFiles(collection.Reference);
         }
 
+        public static void CleanupFiles()
+        {
+            string uploadPath = HostingEnvironment.MapPath(UploadVirtualPath);
+            if (!Directory.Exists(uploadPath))
+            {
+                return;
+            }
+
+            var fileNamePaths = Directory.GetFiles(uploadPath, "*", SearchOption.AllDirectories);
+            foreach (var fileNamePath in fileNamePaths)
+            {
+                try
+                {
+                    File.Delete(fileNamePath);
+                }
+                catch (IOException)
+                {
+                    // Files could always be in use by virusscanners and what not.. So ignore it.
+                }
+            }
+
+            var directories = Directory.GetDirectories(uploadPath, "*", SearchOption.TopDirectoryOnly);
+            foreach (var directory in directories)
+            {
+                try
+                {
+                    Directory.Delete(directory, true);
+                }
+                catch (IOException)
+                {
+                    // Files could always be in use by virusscanners and what not.. So ignore it.
+                }
+            }
+        }
+
         protected internal string GetUploadPath(Guid reference)
         {
-            return Path.Combine(_httpContext.Server.MapPath("~/App_Data/PluploadMvc"), reference.ToString());
+            return Path.Combine(_httpContext.Server.MapPath(UploadVirtualPath), reference.ToString());
         }
 
         #region IDisposable Members
