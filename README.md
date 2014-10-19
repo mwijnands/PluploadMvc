@@ -2,7 +2,7 @@
 
 Integrating [Plupload](http://plupload.com) with ASP.NET MVC as unobtrusive as possible.
 
-[![Build status](http://img.shields.io/appveyor/ci/mwijnands/pluploadmvc.svg?style=flat)](https://ci.appveyor.com/project/mwijnands/pluploadmvc) [![NuGet version](http://img.shields.io/nuget/v/XperiCode.PluploadMvc.svg?style=flat)](https://www.nuget.org/packages/XperiCode.SimpleCache)
+[![Build status](http://img.shields.io/appveyor/ci/mwijnands/pluploadmvc.svg?style=flat)](https://ci.appveyor.com/project/mwijnands/pluploadmvc) [![NuGet version](http://img.shields.io/nuget/v/XperiCode.PluploadMvc.svg?style=flat)](https://www.nuget.org/packages/XperiCode.PluploadMvc)
 
 ## Examples
 
