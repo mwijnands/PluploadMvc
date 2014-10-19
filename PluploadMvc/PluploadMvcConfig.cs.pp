@@ -10,6 +10,7 @@ namespace $rootnamespace$.App_Start
         public static void PreStart() 
         { 
             ModelBinders.Binders.Add(typeof(PluploadFileCollection), new PluploadModelBinder());
+			PluploadContext.CleanupFiles();
         }
     }
 }
