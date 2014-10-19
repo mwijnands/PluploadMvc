@@ -19,20 +19,15 @@ namespace XperiCode.PluploadMvc.Sample
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            bundles.Add(new ScriptBundle("~/bundles/js").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/plupload").Include(
+                      "~/Scripts/respond.js",
                       "~/Scripts/plupload*"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new StyleBundle("~/content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
-
-            // Set EnableOptimizations to false for debugging. For more information,
-            // visit http://go.microsoft.com/fwlink/?LinkId=301862
-            BundleTable.EnableOptimizations = true;
+                      "~/Content/site.css",
+                      "~/Content/pluploadmvc.css"));
         }
     }
 }
