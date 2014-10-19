@@ -1,12 +1,12 @@
 # PluploadMvc
 
-Integrating Plupload with ASP.NET MVC as unobtrusive as possible.
+Integrating [Plupload](http://plupload.com) with ASP.NET MVC as unobtrusive as possible.
 
-[![Build status](http://img.shields.io/appveyor/ci/mwijnands/pluploadmvc.svg?style=flat)](https://ci.appveyor.com/project/mwijnands/pluploadmvc)
+[![Build status](http://img.shields.io/appveyor/ci/mwijnands/pluploadmvc.svg?style=flat)](https://ci.appveyor.com/project/mwijnands/pluploadmvc) [![NuGet version](http://img.shields.io/nuget/v/XperiCode.PluploadMvc.svg?style=flat)](https://www.nuget.org/packages/XperiCode.SimpleCache)
 
 ## Examples
 
-Documentation is coming, and after that a NuGet package. You can check out the fully working sample to get the idea.
+Documentation is coming. You can check out the fully working sample to get the idea.
 
 ## Collaboration
 
