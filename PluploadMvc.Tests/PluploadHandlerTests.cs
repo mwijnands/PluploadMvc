@@ -20,6 +20,8 @@ namespace XperiCode.PluploadMvc.Tests
             var httpFileCollectionMock = new Mock<HttpFileCollectionBase>();
             httpFileCollectionMock.SetupGet(c => c.AllKeys).Returns(new string[] { "FileName.Extension" });
             httpFileCollectionMock.Setup(c => c.Get("FileName.Extension")).Returns(httpPostedFileMock.Object);
+            httpFileCollectionMock.Setup(c => c.Get(0)).Returns(httpPostedFileMock.Object);
+            httpFileCollectionMock.SetupGet(c => c[0]).Returns(httpPostedFileMock.Object);
             var httpRequestMock = new Mock<HttpRequestBase>();
             httpRequestMock.SetupGet(r => r.Files).Returns(httpFileCollectionMock.Object);
             httpRequestMock.SetupGet(r => r.Params).Returns(new NameValueCollection() { { "reference", reference.ToString() } });
