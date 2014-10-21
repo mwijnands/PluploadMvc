@@ -22,6 +22,32 @@ namespace XperiCode.PluploadMvc
             _httpContext.DisposeOnPipelineCompleted(this);
         }
 
+        public void SaveChunk(HttpPostedFileBase file, Guid reference, string fileName, int chunk, int chunks)
+        {
+            string uploadPath = GetUploadPath(reference);
+            if (!Directory.Exists(uploadPath))
+            {
+                Directory.CreateDirectory(uploadPath);
+            }
+
+            string fileSavePath = Path.Combine(uploadPath, Path.GetFileName(fileName));
+
+            string partialFileSavePath = string.Concat(fileSavePath, PluploadFile.PartialFileExtension);
+            using (var fileStream = chunk == 0 ? File.Create(partialFileSavePath) : File.Open(partialFileSavePath, FileMode.Append))
+            {
+                file.InputStream.Seek(0, SeekOrigin.Begin);
+                file.InputStream.CopyTo(fileStream);
+            }
+
+            if (chunk == chunks - 1)
+            {
+                File.Move(partialFileSavePath, fileSavePath);
+
+                string contentTypeSavePath = string.Concat(fileSavePath, PluploadFile.ContentTypeExtension);
+                File.WriteAllText(contentTypeSavePath, file.ContentType);
+            }
+        }
+
         public void SaveFile(HttpPostedFileBase file, Guid reference)
         {
             string uploadPath = GetUploadPath(reference);
@@ -49,7 +75,7 @@ namespace XperiCode.PluploadMvc
                 yield break;
             }
 
-            var fileNamePaths = Directory.GetFiles(uploadPath).Where(p => !p.EndsWith(PluploadFile.ContentTypeExtension));
+            var fileNamePaths = Directory.GetFiles(uploadPath).Where(p => !p.EndsWith(PluploadFile.ContentTypeExtension) && !p.EndsWith(PluploadFile.PartialFileExtension));
             foreach (var fileNamePath in fileNamePaths)
             {
                 PluploadFile file;

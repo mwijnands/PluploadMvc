@@ -9,6 +9,7 @@ namespace XperiCode.PluploadMvc
     public class PluploadFile : HttpPostedFileBase, IDisposable
     {
         public const string ContentTypeExtension = ".contenttype";
+        public const string PartialFileExtension = ".partial";
 
         private readonly string _fileName;
         private readonly FileStream _fileStream;

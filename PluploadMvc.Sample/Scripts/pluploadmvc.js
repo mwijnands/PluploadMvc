@@ -12,7 +12,8 @@
                 browse_button: $container.find('.plupload-select')[0],
                 url: $container.data('plupload-url'),
                 flash_swf_url: '/Scripts/Moxie.swf',
-                silverlight_xap_url: '/Scripts/Moxie.xap'
+                silverlight_xap_url: '/Scripts/Moxie.xap',
+                chunk_size: '400kb'
             });
 
             uploader.init();
@@ -29,6 +30,10 @@
                 $filelist.html(html);
                 up.start();
 
+            });
+
+            uploader.bind('Error', function (up, args) {
+                alert('An error occurred while uploading' + (args.file ? args.file.name + ': ' : ': ') + args.response || args.message);
             });
 
         });

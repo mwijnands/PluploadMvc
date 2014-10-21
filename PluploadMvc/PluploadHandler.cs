@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 
 namespace XperiCode.PluploadMvc
@@ -18,12 +19,35 @@ namespace XperiCode.PluploadMvc
 
         public void ProcessRequest(HttpContextBase context)
         {
-            var pluploadContext = context.GetPluploadContext();
-            var reference = Guid.Parse(context.Request.Params.Get("reference"));
+            Guid reference;
 
-            foreach (var fileKey in context.Request.Files.AllKeys)
+            if (!Guid.TryParse(context.Request.Params["reference"], out reference))
             {
-                var file = context.Request.Files.Get(fileKey);
+                context.Response.StatusCode = 500;
+                context.Response.Write("No reference found in postdata or querystring.");
+                return;
+            }
+
+            if (!context.Request.Files.AllKeys.Any())
+            {
+                return;
+            }
+
+            int chunks;
+            int.TryParse(context.Request.Params["chunks"], out chunks);
+
+            var pluploadContext = context.GetPluploadContext();
+            var file = context.Request.Files[0];
+
+            if (chunks > 0)
+            {
+                int chunk = int.Parse(context.Request.Params["chunk"]);
+                string fileName = context.Request.Params["name"];
+
+                pluploadContext.SaveChunk(file, reference, fileName, chunk, chunks);
+            }
+            else
+            {
                 pluploadContext.SaveFile(file, reference);
             }
 
