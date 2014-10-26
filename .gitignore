@@ -172,4 +172,7 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
 /PluploadMvc.Sample/App_Data/PluploadMvc
+/PluploadMvc/NuGet/*.nupkg
+
