@@ -34,7 +34,7 @@ namespace XperiCode.PluploadMvc.Tests
             httpContextMock.SetupGet(c => c.Server).Returns(httpServerUtilityMock.Object);
 
             var httpPostedFileMock = new Mock<HttpPostedFileBase>();
-            httpPostedFileMock.SetupGet(f => f.FileName).Returns("FileName.Extension");
+            httpPostedFileMock.SetupGet(f => f.FileName).Returns("document.pdf");
             httpPostedFileMock.SetupGet(f => f.ContentLength).Returns(2);
             httpPostedFileMock.SetupGet(f => f.ContentType).Returns("application/pdf");
 

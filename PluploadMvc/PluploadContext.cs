@@ -44,7 +44,7 @@ namespace XperiCode.PluploadMvc
                 File.Move(partialFileSavePath, fileSavePath);
 
                 string contentTypeSavePath = string.Concat(fileSavePath, PluploadFile.ContentTypeExtension);
-                File.WriteAllText(contentTypeSavePath, file.ContentType);
+                File.WriteAllText(contentTypeSavePath, MimeMapping.GetMimeMapping(fileName));
             }
         }
 
@@ -64,7 +64,7 @@ namespace XperiCode.PluploadMvc
             }
 
             string contentTypeSavePath = string.Concat(fileSavePath, PluploadFile.ContentTypeExtension);
-            File.WriteAllText(contentTypeSavePath, file.ContentType);
+            File.WriteAllText(contentTypeSavePath, MimeMapping.GetMimeMapping(file.FileName));
         }
 
         public IEnumerable<HttpPostedFileBase> GetFiles(Guid reference)
@@ -172,7 +172,7 @@ namespace XperiCode.PluploadMvc
             }
         }
 
-        protected internal string GetUploadPath(Guid reference)
+        internal string GetUploadPath(Guid reference)
         {
             return Path.Combine(_httpContext.Server.MapPath(UploadVirtualPath), reference.ToString());
         }
