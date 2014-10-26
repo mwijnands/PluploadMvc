@@ -10,14 +10,14 @@ Documentation is coming. You can check out the fully working sample to get the i
 
 ## Release notes
 
-### v0.2.0
+#### v0.2.0
 
 - Added support for chunked uploads
 
-### v0.1.1
-- Changed Microsoft.AspNet.Mvc dependencies to 5.0.0 (5.1.2 was unnecessary)
+#### v0.1.1
+- Changed Microsoft.AspNet.Mvc dependencies to 5.0.0 (5.2.0 was unnecessary)
 
-### v0.1.0
+#### v0.1.0
 
 - Initial release
 
