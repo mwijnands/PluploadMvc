@@ -24,7 +24,7 @@ I will start with some examples of using the various server side components sepa
         </handlers>
     </system.webServer>
 
-This `HttpHandler` can be used to handle file uploads from Plupload. To be able to retrieve the uploaded files later, **you need to pass the HttpHandler a reference in the form of a Guid** (this will soon be a string in v0.3.0 for more flexibility). So the url option passed to the plupload constructor should be something like this:
+This `HttpHandler` can be used to handle file uploads from [Plupload](http://plupload.com). To be able to retrieve the uploaded files later, **you need to pass the HttpHandler a reference in the form of a Guid** (this will soon be a string in v0.3.0 for more flexibility). So in javascript, the url option passed to the plupload.Uploader constructor should be something like this:
 
     var uploader = new plupload.Uploader({
         // ...
@@ -36,7 +36,7 @@ The `PluploadHandler` will now handle the file uploads (it handles [chunked uplo
 
 #### PluploadContext
 
-To easily retrieve the uploaded files, you can use `PluploadContext`. You should not create this class yourself. Instead, get it off `HttpContextBase` by using the provided extension method `GetPluploadContext()`. For example, within a `Controller` you could use:
+To easily retrieve the uploaded files, you can use `PluploadContext`. You should not create an instance of this class yourself. Instead, get it off `HttpContextBase` by using the provided extension method `GetPluploadContext()`. For example, within a `Controller` you could use:
 
     using XperiCode.PluploadMvc;
 	// ...
@@ -69,7 +69,7 @@ When using `PluploadMvc`, you can still test your controllers. The `HttpContextB
 
 #### v0.2.0
 
-- Added support for chunked uploads
+- Added support for [chunked uploads](http://plupload.com/docs/Chunking)
 
 #### v0.1.1
 - Changed Microsoft.AspNet.Mvc dependencies to 5.0.0 (5.2.0 was unnecessary)
