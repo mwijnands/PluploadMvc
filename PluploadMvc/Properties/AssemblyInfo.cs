@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("XperiCode.PluploadMvc")]
-[assembly: AssemblyDescription("Integrating Plupload with ASP.NET MVC as unobtrusive as possible.")]
+[assembly: AssemblyDescription("Integrating Plupload with ASP.NET MVC.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("XperiCode")]
 [assembly: AssemblyProduct("PluploadMvc")]
@@ -32,8 +32,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.2.0.0")]
-[assembly: AssemblyFileVersion("0.2.0.0")]
-[assembly: AssemblyInformationalVersion("0.2.0")]
+[assembly: AssemblyVersion("0.3.0.0")]
+[assembly: AssemblyFileVersion("0.3.0.0")]
+[assembly: AssemblyInformationalVersion("0.3.0-pre")]
 
 [assembly: InternalsVisibleTo("XperiCode.PluploadMvc.Tests")]
