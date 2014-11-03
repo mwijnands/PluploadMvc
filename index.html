@@ -65,7 +65,7 @@
 &lt;/system.webServer&gt;
 </code></pre>
 
-<p>This <code>HttpHandler</code> can be used to handle file uploads from Plupload. To be able to retrieve the uploaded files later, <strong>you need to pass the HttpHandler a reference in the form of a Guid</strong> (this will soon be a string in v0.3.0 for more flexibility). So the url option passed to the plupload constructor should be something like this:</p>
+<p>This <code>HttpHandler</code> can be used to handle file uploads from <a href="http://plupload.com">Plupload</a>. To be able to retrieve the uploaded files later, <strong>you need to pass the HttpHandler a reference in the form of a Guid</strong> (this will soon be a string in v0.3.0 for more flexibility). So in javascript, the url option passed to the plupload.Uploader constructor should be something like this:</p>
 
 <pre><code>var uploader = new plupload.Uploader({
     // ...
@@ -79,7 +79,7 @@
 <h4>
 <a name="pluploadcontext" class="anchor" href="#pluploadcontext"><span class="octicon octicon-link"></span></a>PluploadContext</h4>
 
-<p>To easily retrieve the uploaded files, you can use <code>PluploadContext</code>. You should not create this class yourself. Instead, get it off <code>HttpContextBase</code> by using the provided extension method <code>GetPluploadContext()</code>. For example, within a <code>Controller</code> you could use:</p>
+<p>To easily retrieve the uploaded files, you can use <code>PluploadContext</code>. You should not create an instance of this class yourself. Instead, get it off <code>HttpContextBase</code> by using the provided extension method <code>GetPluploadContext()</code>. For example, within a <code>Controller</code> you could use:</p>
 
 <pre><code>using XperiCode.PluploadMvc;
 // ...
@@ -121,7 +121,8 @@ PluploadContext.CleanupFiles();
 <a name="v020" class="anchor" href="#v020"><span class="octicon octicon-link"></span></a>v0.2.0</h4>
 
 <ul>
-<li>Added support for chunked uploads</li>
+<li>Added support for <a href="http://plupload.com/docs/Chunking">chunked uploads</a>
+</li>
 </ul>
 
 <h4>
