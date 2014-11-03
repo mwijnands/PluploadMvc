@@ -14,7 +14,7 @@ namespace XperiCode.PluploadMvc
         private readonly HttpContextBase _httpContext;
         private readonly IDictionary<string, PluploadFile> _files;
 
-        public PluploadContext(HttpContextBase httpContext)
+        internal PluploadContext(HttpContextBase httpContext)
         {
             _httpContext = httpContext;
             _files = new Dictionary<string, PluploadFile>(StringComparer.OrdinalIgnoreCase);
