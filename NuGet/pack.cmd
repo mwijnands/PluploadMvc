@@ -1,1 +1,1 @@
-nuget pack ../PluploadMvc/PluploadMvc.csproj -Build -Prop Configuration=Release
+nuget pack ../PluploadMvc/PluploadMvc.csproj -Symbols -Build -Prop Configuration=Release
