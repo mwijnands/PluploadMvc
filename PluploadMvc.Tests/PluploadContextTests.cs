@@ -132,5 +132,24 @@ namespace XperiCode.PluploadMvc.Tests
                 // Files could always be in use by virusscanners and what not.. So ignore it.
             }
         }
+
+        [TestMethod(), ExpectedException(typeof(ArgumentException))]
+        public void Should_Throw_ArgumentException_When_Reference_Contains_Invalid_FileName_Chars()
+        {
+            var httpContextMock = new Mock<HttpContextBase>();
+            var httpContext = httpContextMock.Object;
+
+            var pluploadContext = new PluploadContext(httpContext);
+
+            try
+            {
+                pluploadContext.DeleteFiles("dsf:sdf");
+            }
+            catch (ArgumentException ex)
+            {
+                Assert.AreEqual("reference", ex.ParamName);
+                throw;
+            }
+        }
     }
 }
