@@ -14,7 +14,7 @@ namespace XperiCode.PluploadMvc.Tests
             string tempFileName = "FileName.Extension";
             string tempFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
             string tempFileNamePath = Path.Combine(tempFilePath, tempFileName);
-            string reference = Guid.NewGuid().ToString();
+            Guid reference = Guid.NewGuid();
 
             if (!Directory.Exists(tempFilePath))
             {
@@ -62,7 +62,7 @@ namespace XperiCode.PluploadMvc.Tests
         [TestMethod]
         public void Should_Have_Empty_Properties_When_Supplied_Not_Existing_FileNamePath()
         {
-            using (var file = new PluploadFile(string.Concat(@"c:\", Guid.NewGuid(), Guid.NewGuid()), Guid.NewGuid().ToString()))
+            using (var file = new PluploadFile(string.Concat(@"c:\", Guid.NewGuid(), Guid.NewGuid()), Guid.NewGuid()))
             {
                 Assert.IsNull(file.FileName);
                 Assert.IsNull(file.ContentType);
@@ -90,7 +90,7 @@ namespace XperiCode.PluploadMvc.Tests
                 fileStream.Flush();
             }
 
-            using (var file = new PluploadFile(tempFileNamePath, Guid.NewGuid().ToString()))
+            using (var file = new PluploadFile(tempFileNamePath, Guid.NewGuid()))
             {
                 string tempFileName2 = "FileName.Extension";
                 string tempFilePath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());

@@ -19,12 +19,12 @@ namespace XperiCode.PluploadMvc
 
         public void ProcessRequest(HttpContextBase context)
         {
-            string reference = context.Request.Params["reference"];
+            Guid reference;
 
-            if (!PluploadContext.ValidateReference(reference))
+            if (!Guid.TryParse(context.Request.Params["reference"], out reference))
             {
                 context.Response.StatusCode = 500;
-                context.Response.Write("No reference found in postdata or querystring, or reference contains invalid filename chars.");
+                context.Response.Write("No reference found in postdata or querystring.");
                 return;
             }
 

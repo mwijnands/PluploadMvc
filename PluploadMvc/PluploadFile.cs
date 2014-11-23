@@ -15,12 +15,10 @@ namespace XperiCode.PluploadMvc
         private readonly FileStream _fileStream;
         private readonly string _contentType;
         private readonly int _contentLength;
-        private readonly string _reference;
+        private readonly Guid _reference;
 
-        public PluploadFile(string fileNamePath, string reference)
+        public PluploadFile(string fileNamePath, Guid reference)
         {
-            PluploadContext.GuardInvalidReference(reference);
-
             if (!File.Exists(fileNamePath))
             {
                 return;
@@ -38,7 +36,7 @@ namespace XperiCode.PluploadMvc
             }
         }
 
-        internal string Reference 
+        internal Guid Reference 
         { 
             get
             {

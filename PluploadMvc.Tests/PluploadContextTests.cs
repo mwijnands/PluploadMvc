@@ -42,7 +42,7 @@ namespace XperiCode.PluploadMvc.Tests
             {
                 httpPostedFileMock.SetupGet(f => f.InputStream).Returns(stream);
 
-                var reference = Guid.NewGuid().ToString();
+                var reference = Guid.NewGuid();
 
                 using (var pluploadContext = new PluploadContext(httpContextMock.Object))
                 {
@@ -102,8 +102,8 @@ namespace XperiCode.PluploadMvc.Tests
                 httpPostedFile1Mock.SetupGet(f => f.InputStream).Returns(stream1);
                 httpPostedFile2Mock.SetupGet(f => f.InputStream).Returns(stream2);
 
-                var reference1 = Guid.NewGuid().ToString();
-                var reference2 = "98w3jf3498sj";
+                var reference1 = Guid.NewGuid();
+                var reference2 = Guid.NewGuid();
 
                 using (var pluploadContext = new PluploadContext(httpContextMock.Object))
                 {
