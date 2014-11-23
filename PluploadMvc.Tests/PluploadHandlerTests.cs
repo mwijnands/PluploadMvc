@@ -14,7 +14,7 @@ namespace XperiCode.PluploadMvc.Tests
         [TestMethod()]
         public void ProcessRequest_Should_Save_File()
         {
-            var reference = Guid.NewGuid();
+            var reference = Guid.NewGuid().ToString();
             var pluploadContextMock = new Mock<IPluploadContext>();
             var httpPostedFileMock = new Mock<HttpPostedFileBase>();
             var httpFileCollectionMock = new Mock<HttpFileCollectionBase>();
