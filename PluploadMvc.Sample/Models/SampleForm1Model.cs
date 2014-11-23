@@ -8,17 +8,17 @@ namespace XperiCode.PluploadMvc.Sample.Models
     {
         public SampleForm1Model()
         {
-            UploadReference1 = Guid.NewGuid();
-            UploadReference2 = Guid.NewGuid();
+            UploadReference1 = Guid.NewGuid().ToString();
+            UploadReference2 = "12345";
         }
 
         [Display(Name = "Some text")]
         public string Text { get; set; }
 
         [Display(Name = "Some files")]
-        public Guid UploadReference1 { get; set; }
+        public string UploadReference1 { get; set; }
 
         [Display(Name = "Some other files")]
-        public Guid UploadReference2 { get; set; }
+        public string UploadReference2 { get; set; }
     }
 }
