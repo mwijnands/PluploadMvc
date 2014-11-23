@@ -9,7 +9,7 @@ namespace XperiCode.PluploadMvc
     {
         public override object BindModel(ControllerContext controllerContext, ModelBindingContext bindingContext)
         {
-            string reference = bindingContext.ValueProvider.GetValue(bindingContext.ModelName).AttemptedValue;
+            Guid reference = Guid.Parse(bindingContext.ValueProvider.GetValue(bindingContext.ModelName).AttemptedValue);
 
             var pluploadContext = controllerContext.HttpContext.GetPluploadContext();
             var files = pluploadContext.GetFiles(reference).Cast<PluploadFile>().ToList();
