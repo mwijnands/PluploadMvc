@@ -7,20 +7,24 @@ namespace XperiCode.PluploadMvc
 {
     public class PluploadFileCollection : ReadOnlyCollection<PluploadFile>
     {
-        public PluploadFileCollection() : this(new List<PluploadFile>(), Guid.NewGuid())
+        public PluploadFileCollection() : this(new List<PluploadFile>(), Guid.NewGuid().ToString())
         {
         }
 
-        public PluploadFileCollection(IList<PluploadFile> list, Guid reference) : base(list)
+        public PluploadFileCollection(string reference) : this(new List<PluploadFile>(), reference)
+        {
+        }
+
+        public PluploadFileCollection(IList<PluploadFile> files, string reference) : base(files)
         {
             this.Reference = reference;
         }
 
-        internal Guid Reference { get; set; }
+        internal string Reference { get; set; }
 
         public override string ToString()
         {
-            return this.Reference.ToString();
+            return this.Reference;
         }
     }
 }
