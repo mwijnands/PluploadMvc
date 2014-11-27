@@ -42,7 +42,7 @@ namespace XperiCode.PluploadMvc.Tests
             {
                 httpPostedFileMock.SetupGet(f => f.InputStream).Returns(stream);
 
-                var reference = Guid.NewGuid();
+                var reference = Guid.NewGuid().ToString();
 
                 using (var pluploadContext = new PluploadContext(httpContextMock.Object))
                 {
@@ -102,8 +102,8 @@ namespace XperiCode.PluploadMvc.Tests
                 httpPostedFile1Mock.SetupGet(f => f.InputStream).Returns(stream1);
                 httpPostedFile2Mock.SetupGet(f => f.InputStream).Returns(stream2);
 
-                var reference1 = Guid.NewGuid();
-                var reference2 = Guid.NewGuid();
+                var reference1 = Guid.NewGuid().ToString();
+                var reference2 = "98w3jf3498sj";
 
                 using (var pluploadContext = new PluploadContext(httpContextMock.Object))
                 {
@@ -130,6 +130,25 @@ namespace XperiCode.PluploadMvc.Tests
             catch (IOException)
             {
                 // Files could always be in use by virusscanners and what not.. So ignore it.
+            }
+        }
+
+        [TestMethod(), ExpectedException(typeof(ArgumentException))]
+        public void Should_Throw_ArgumentException_When_Reference_Contains_Invalid_FileName_Chars()
+        {
+            var httpContextMock = new Mock<HttpContextBase>();
+            var httpContext = httpContextMock.Object;
+
+            var pluploadContext = new PluploadContext(httpContext);
+
+            try
+            {
+                pluploadContext.DeleteFiles("dsf:sdf");
+            }
+            catch (ArgumentException ex)
+            {
+                Assert.AreEqual("reference", ex.ParamName);
+                throw;
             }
         }
     }

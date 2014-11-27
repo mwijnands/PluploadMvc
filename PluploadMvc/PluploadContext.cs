@@ -22,8 +22,10 @@ namespace XperiCode.PluploadMvc
             _httpContext.DisposeOnPipelineCompleted(this);
         }
 
-        public void SaveChunk(HttpPostedFileBase file, Guid reference, string fileName, int chunk, int chunks)
+        public void SaveChunk(HttpPostedFileBase file, string reference, string fileName, int chunk, int chunks)
         {
+            GuardInvalidReference(reference);
+
             string uploadPath = GetUploadPath(reference);
             if (!Directory.Exists(uploadPath))
             {
@@ -48,8 +50,10 @@ namespace XperiCode.PluploadMvc
             }
         }
 
-        public void SaveFile(HttpPostedFileBase file, Guid reference)
+        public void SaveFile(HttpPostedFileBase file, string reference)
         {
+            GuardInvalidReference(reference);
+
             string uploadPath = GetUploadPath(reference);
             if (!Directory.Exists(uploadPath))
             {
@@ -67,8 +71,10 @@ namespace XperiCode.PluploadMvc
             File.WriteAllText(contentTypeSavePath, MimeMapping.GetMimeMapping(file.FileName));
         }
 
-        public IEnumerable<HttpPostedFileBase> GetFiles(Guid reference)
+        public IEnumerable<HttpPostedFileBase> GetFiles(string reference)
         {
+            GuardInvalidReference(reference);
+
             string uploadPath = GetUploadPath(reference);
             if (!Directory.Exists(uploadPath))
             {
@@ -94,8 +100,10 @@ namespace XperiCode.PluploadMvc
             }
         }
 
-        public void DeleteFiles(Guid reference)
+        public void DeleteFiles(string reference)
         {
+            GuardInvalidReference(reference);
+
             var files = _files.Where(f => f.Value.Reference == reference).ToArray();
             foreach (var file in files)
             {
@@ -172,9 +180,26 @@ namespace XperiCode.PluploadMvc
             }
         }
 
-        internal string GetUploadPath(Guid reference)
+        public static bool ValidateReference(string reference)
         {
-            return Path.Combine(_httpContext.Server.MapPath(UploadVirtualPath), reference.ToString());
+            if (string.IsNullOrWhiteSpace(reference))
+            {
+                return false;
+            }
+            return !reference.Any(c => Path.GetInvalidFileNameChars().Contains(c));
+        }
+
+        public static void GuardInvalidReference(string reference)
+        {
+            if (!ValidateReference(reference))
+            {
+                throw new ArgumentException("reference cannot be empty or contain invalid filename chars.", "reference");
+            }
+        }
+
+        internal string GetUploadPath(string reference)
+        {
+            return Path.Combine(_httpContext.Server.MapPath(UploadVirtualPath), reference);
         }
 
         #region IDisposable Members
