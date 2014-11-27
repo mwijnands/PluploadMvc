@@ -1,6 +1,8 @@
-﻿@model XperiCode.PluploadMvc.PluploadFileCollection
+﻿@using XperiCode.PluploadMvc;
 
-<div class="plupload-control" data-plupload-url="@Url.Content("~/Plupload.axd?reference=" + Model)">
+@model XperiCode.PluploadMvc.PluploadFileCollection
+
+<div class="plupload-control" data-plupload-url="@Url.PluploadHandler(Model)">
     @Html.HiddenFor(m => m)
     <div class="form-control pull-left plupload-filelist">
     </div>

@@ -1,4 +1,6 @@
-﻿@model XperiCode.PluploadMvc.Sample.Models.SampleForm1Model
+﻿@using XperiCode.PluploadMvc;
+
+@model XperiCode.PluploadMvc.Sample.Models.SampleForm1Model
 
 @{
     ViewBag.Title = "Sample form 1";
@@ -25,7 +27,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.UploadReference1, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <div class="plupload-control" data-plupload-url="@Url.Content("~/Plupload.axd?reference=" + Model.UploadReference1)">
+            <div class="plupload-control" data-plupload-url="@Url.PluploadHandler(Model.UploadReference1)">
                 @Html.HiddenFor(m => m.UploadReference1)
                 <div class="form-control pull-left plupload-filelist">
                 </div>
@@ -39,7 +41,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.UploadReference2, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            <div class="plupload-control" data-plupload-url="@Url.Content("~/Plupload.axd?reference=" + Model.UploadReference2)">
+            <div class="plupload-control" data-plupload-url="@Url.PluploadHandler(Model.UploadReference2)">
                 @Html.HiddenFor(m => m.UploadReference2)
                 <div class="form-control pull-left plupload-filelist">
                 </div>
