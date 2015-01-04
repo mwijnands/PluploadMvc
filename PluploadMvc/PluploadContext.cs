@@ -43,6 +43,11 @@ namespace XperiCode.PluploadMvc
 
             if (chunk == chunks - 1)
             {
+                if (File.Exists(fileSavePath))
+                {
+                    File.Delete(fileSavePath);
+                }
+
                 File.Move(partialFileSavePath, fileSavePath);
 
                 string contentTypeSavePath = string.Concat(fileSavePath, PluploadFile.ContentTypeExtension);

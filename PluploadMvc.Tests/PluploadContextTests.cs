@@ -7,10 +7,10 @@ using System.Web;
 
 namespace XperiCode.PluploadMvc.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class PluploadContextTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void Should_Be_Disposed_When_Request_Pipeline_Completed()
         {
             var httpContextMock = new Mock<HttpContextBase>();
@@ -21,7 +21,7 @@ namespace XperiCode.PluploadMvc.Tests
             httpContextMock.Verify(c => c.DisposeOnPipelineCompleted(pluploadContext), Times.Once);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void Should_Get_Saved_File_Including_Content_Type()
         {
             string uploadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
@@ -74,7 +74,7 @@ namespace XperiCode.PluploadMvc.Tests
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void DeleteFiles_Should_Only_Dispose_And_Delete_Files_Of_Given_Reference()
         {
             string uploadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
@@ -133,7 +133,7 @@ namespace XperiCode.PluploadMvc.Tests
             }
         }
 
-        [TestMethod(), ExpectedException(typeof(ArgumentException))]
+        [TestMethod, ExpectedException(typeof(ArgumentException))]
         public void Should_Throw_ArgumentException_When_Reference_Contains_Invalid_FileName_Chars()
         {
             var httpContextMock = new Mock<HttpContextBase>();
@@ -149,6 +149,60 @@ namespace XperiCode.PluploadMvc.Tests
             {
                 Assert.AreEqual("reference", ex.ParamName);
                 throw;
+            }
+        }
+
+        [TestMethod]
+        public void Should_Get_Saved_Chunk_Including_Content_Type()
+        {
+            string uploadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
+
+            var httpServerUtilityMock = new Mock<HttpServerUtilityBase>();
+            httpServerUtilityMock.Setup(u => u.MapPath(PluploadContext.UploadVirtualPath))
+                .Returns(uploadPath);
+
+            var httpContextMock = new Mock<HttpContextBase>();
+            httpContextMock.SetupGet(c => c.Server).Returns(httpServerUtilityMock.Object);
+
+            var httpPostedFileMock = new Mock<HttpPostedFileBase>();
+            httpPostedFileMock.SetupGet(f => f.FileName).Returns("document.pdf");
+            httpPostedFileMock.SetupGet(f => f.ContentLength).Returns(2);
+
+            using (var stream = new MemoryStream(new byte[] { 111, 222 }))
+            {
+                httpPostedFileMock.SetupGet(f => f.InputStream).Returns(stream);
+
+                var reference = Guid.NewGuid().ToString();
+
+                using (var pluploadContext = new PluploadContext(httpContextMock.Object))
+                {
+                    // Finish same chunked upload twice to test that file will be overwritten and does not throw exception.
+                    pluploadContext.SaveChunk(httpPostedFileMock.Object, reference, httpPostedFileMock.Object.FileName, 0, 1);
+                    pluploadContext.SaveChunk(httpPostedFileMock.Object, reference, httpPostedFileMock.Object.FileName, 0, 1);
+
+                    var file = pluploadContext.GetFiles(reference).FirstOrDefault();
+
+                    Assert.IsNotNull(file);
+                    Assert.AreEqual(file.FileName, httpPostedFileMock.Object.FileName);
+                    Assert.AreEqual(file.ContentLength, httpPostedFileMock.Object.ContentLength);
+                    Assert.AreEqual(file.ContentType, "application/pdf");
+                    Assert.AreEqual(file.InputStream.Length, httpPostedFileMock.Object.InputStream.Length);
+
+                    // TODO: Split up this test in separate tests for saving, getting and deleting.
+                    pluploadContext.DeleteFiles(reference);
+
+                    Assert.AreEqual(0, pluploadContext.GetFiles(reference).Count());
+                    Assert.AreEqual(0, Directory.GetFiles(uploadPath).Count());
+                }
+            }
+
+            try
+            {
+                Directory.Delete(uploadPath, true);
+            }
+            catch (IOException)
+            {
+                // Files could always be in use by virusscanners and what not.. So ignore it.
             }
         }
     }
