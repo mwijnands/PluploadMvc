@@ -79,6 +79,13 @@ When using `PluploadMvc`, you can still test your controllers. The `HttpContextB
 
 ## Release notes
 
+#### v0.3.0
+
+- Reference (to upload and retrieve files with) is now a string for more flexibility.
+- Added an UrlHelper extension method to retrieve the URL to the upload handler.
+- Introduced the PluploadConfiguration class, to configure the upload path and pluploadhandler path.
+- Fixed thrown IOException when uploading chunked file and the file already exists.
+
 #### v0.2.0
 
 - Added support for [chunked uploads](http://plupload.com/docs/Chunking)
