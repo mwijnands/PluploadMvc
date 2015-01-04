@@ -7,7 +7,7 @@ namespace XperiCode.PluploadMvc
     {
         public static string PluploadHandler(this UrlHelper urlHelper, string reference)
         {
-            return urlHelper.Content(string.Concat("~/Plupload.axd?reference=", reference));
+            return urlHelper.Content(string.Format(PluploadConfiguration.HandlerPath, reference));
         }
 
         public static string PluploadHandler(this UrlHelper urlHelper, PluploadFileCollection collection)
@@ -17,7 +17,7 @@ namespace XperiCode.PluploadMvc
                 throw new ArgumentNullException("collection", "'collection' is null. When using a ViewModel, you should initialize your ViewModel with new PluploadFileCollection(s).");
             }
 
-            return urlHelper.Content(string.Concat("~/Plupload.axd?reference=", collection.Reference));
+            return urlHelper.Content(string.Format(PluploadConfiguration.HandlerPath, collection.Reference));
         }
     }
 }

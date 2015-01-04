@@ -27,7 +27,7 @@ namespace XperiCode.PluploadMvc.Tests
             string uploadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
 
             var httpServerUtilityMock = new Mock<HttpServerUtilityBase>();
-            httpServerUtilityMock.Setup(u => u.MapPath(PluploadContext.UploadVirtualPath))
+            httpServerUtilityMock.Setup(u => u.MapPath(PluploadConfiguration.UploadPath))
                 .Returns(uploadPath);
 
             var httpContextMock = new Mock<HttpContextBase>();
@@ -80,7 +80,7 @@ namespace XperiCode.PluploadMvc.Tests
             string uploadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
 
             var httpServerUtilityMock = new Mock<HttpServerUtilityBase>();
-            httpServerUtilityMock.Setup(u => u.MapPath(PluploadContext.UploadVirtualPath))
+            httpServerUtilityMock.Setup(u => u.MapPath(PluploadConfiguration.UploadPath))
                 .Returns(uploadPath);
 
             var httpContextMock = new Mock<HttpContextBase>();
@@ -158,7 +158,7 @@ namespace XperiCode.PluploadMvc.Tests
             string uploadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
 
             var httpServerUtilityMock = new Mock<HttpServerUtilityBase>();
-            httpServerUtilityMock.Setup(u => u.MapPath(PluploadContext.UploadVirtualPath))
+            httpServerUtilityMock.Setup(u => u.MapPath(PluploadConfiguration.UploadPath))
                 .Returns(uploadPath);
 
             var httpContextMock = new Mock<HttpContextBase>();

@@ -9,8 +9,6 @@ namespace XperiCode.PluploadMvc
 {
     public class PluploadContext : IPluploadContext, IDisposable
     {
-        internal const string UploadVirtualPath = "~/App_Data/PluploadMvc";
-
         private readonly HttpContextBase _httpContext;
         private readonly IDictionary<string, PluploadFile> _files;
 
@@ -152,7 +150,11 @@ namespace XperiCode.PluploadMvc
 
         public static void CleanupFiles()
         {
-            string uploadPath = HostingEnvironment.MapPath(UploadVirtualPath);
+            string uploadPath = PluploadConfiguration.UploadPath;
+            if (uploadPath[0] == '~')
+            {
+                uploadPath = HostingEnvironment.MapPath(uploadPath);
+            }
             if (!Directory.Exists(uploadPath))
             {
                 return;
@@ -204,7 +206,13 @@ namespace XperiCode.PluploadMvc
 
         internal string GetUploadPath(string reference)
         {
-            return Path.Combine(_httpContext.Server.MapPath(UploadVirtualPath), reference);
+            string uploadPath = PluploadConfiguration.UploadPath;
+            if (uploadPath[0] == '~')
+            {
+                uploadPath = _httpContext.Server.MapPath(uploadPath);
+            }
+
+            return Path.Combine(uploadPath, reference);
         }
 
         #region IDisposable Members
