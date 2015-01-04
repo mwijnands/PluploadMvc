@@ -4,7 +4,7 @@
     {
         static PluploadConfiguration()
         {
-            UploadPath = "~/aApp_Data/PluploadMvc";
+            UploadPath = "~/App_Data/PluploadMvc";
             HandlerPath = "~/Plupload.axd?reference={0}";
         }
 
