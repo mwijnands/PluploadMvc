@@ -64,7 +64,7 @@ var pluploadContext = HttpContext.GetPluploadContext();
 After acquiring the `PluploadContext`, you can use the `GetFiles()` method to retrieve the files that were uploaded using the specific `reference`:
 
 ```c#
-var reference = Guid.Parse("13095a38-6841-4204-a2cc-61135d812436");
+string reference = "13095a38-6841-4204-a2cc-61135d812436";
 var uploadedFiles = pluploadContext.GetFiles(reference);
 ```
 
