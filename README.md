@@ -26,7 +26,7 @@ I will start with some examples of using the various server side components sepa
 </system.webServer>
 ```
 
-This `HttpHandler` can be used to handle file uploads from [Plupload](http://plupload.com). To be able to retrieve the uploaded files later, **you need to pass the HttpHandler a reference in the form of a Guid** (this will soon be a string in v0.3.0 for more flexibility). So in javascript, the url option passed to the plupload.Uploader constructor should be something like this:
+This `HttpHandler` can be used to handle file uploads from [Plupload](http://plupload.com). To be able to retrieve the uploaded files later, **you need to pass the HttpHandler a reference in the form of a String (I would recommend a Guid)**. So in javascript, the url option passed to the plupload.Uploader constructor should be something like this:
 
 ```c#
 var uploader = new plupload.Uploader({
@@ -36,7 +36,20 @@ var uploader = new plupload.Uploader({
 });
 ```
 
-The `PluploadHandler` will now handle the file uploads (it handles [chunked uploads](http://plupload.com/docs/Chunking) as well as normal uploads), and saves the files to a temporary folder at `~/App_Data/PluploadMvc/13095a38-6841-4204-a2cc-61135d812436/`.
+The URL to the upload handler can be generated in a View (for example to render in a data-attribute to be read by your javascript) using the included UrlHelper extension methods:
+
+```c#
+@using XperiCode.PluploadMvc
+
+<div data-plupload-url="@Url.PluploadHandler("13095a38-6841-4204-a2cc-61135d812436")">
+	...
+</div>
+
+```
+
+When you change the url of the upload handler (default is ~/Plupload.axd), you can configure this UrlHelper extension method to output another url using the `PluploadConfiguration` class.
+
+The `PluploadHandler` will now handle the file uploads (it handles [chunked uploads](http://plupload.com/docs/Chunking) as well as normal uploads), and saves the files to a temporary folder at `~/App_Data/PluploadMvc/13095a38-6841-4204-a2cc-61135d812436/`. This folder is configurable using the static `PluploadConfiguration` class.
 
 #### PluploadContext
 
