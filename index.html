@@ -32,93 +32,108 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a name="pluploadmvc" class="anchor" href="#pluploadmvc"><span class="octicon octicon-link"></span></a>PluploadMvc</h1>
+<a id="pluploadmvc" class="anchor" href="#pluploadmvc" aria-hidden="true"><span class="octicon octicon-link"></span></a>PluploadMvc</h1>
 
 <p><code>PluploadMvc</code> contains server side components to make it easy to integrate <a href="http://plupload.com">Plupload</a> into your ASP.NET MVC application. It can be used to deeply integrate <a href="http://plupload.com">Plupload</a> to make it feel like you're using a normal file input field, but you can also just use it for the included <code>PluploadHandler</code> (also supporting <a href="http://plupload.com/docs/Chunking">chunked file uploads</a>) + <code>PluploadContext</code> to easily retrieve the uploaded files. </p>
 
 <p><a href="https://ci.appveyor.com/project/mwijnands/pluploadmvc"><img src="http://img.shields.io/appveyor/ci/mwijnands/pluploadmvc.svg?style=flat" alt="Build status"></a> <a href="https://www.nuget.org/packages/XperiCode.PluploadMvc"><img src="http://img.shields.io/nuget/v/XperiCode.PluploadMvc.svg?style=flat" alt="NuGet version"></a></p>
 
 <h2>
-<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>The <code>PluploadMvc</code> package is available at <a href="https://www.nuget.org/packages/XperiCode.PluploadMvc">NuGet</a>. To install <code>PluploadMvc</code>, run the following command in the <a href="http://docs.nuget.org/docs/start-here/using-the-package-manager-console">Package Manager Console</a>:</p>
 
 <blockquote>
-<h3>
-<a name="install-package-xpericodepluploadmvc" class="anchor" href="#install-package-xpericodepluploadmvc"><span class="octicon octicon-link"></span></a>Install-Package XperiCode.PluploadMvc</h3>
+<h4>
+<a id="install-package-xpericodepluploadmvc" class="anchor" href="#install-package-xpericodepluploadmvc" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install-Package XperiCode.PluploadMvc</h4>
 </blockquote>
 
 <h2>
-<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
 
 <p>I will start with some examples of using the various server side components separately, to eventually get to a full integration example. All examples are built off of the <a href="http://plupload.com/examples/core">Plupload Core API sample</a> from the Plupload website at <a href="http://plupload.com/examples/core">http://plupload.com/examples/core</a>.</p>
 
 <h4>
-<a name="pluploadhandler" class="anchor" href="#pluploadhandler"><span class="octicon octicon-link"></span></a>PluploadHandler</h4>
+<a id="pluploadhandler" class="anchor" href="#pluploadhandler" aria-hidden="true"><span class="octicon octicon-link"></span></a>PluploadHandler</h4>
 
 <p><code>PluploadMvc</code> includes an <code>HttpHandler</code> that can be used to handle uploaded files that are uploaded by <a href="http://plupload.com">Plupload</a>. It is added to the <code>Web.config</code> as <code>Plupload.axd</code> automatically when using NuGet to install the package.</p>
 
-<pre><code>&lt;system.webServer&gt;
-    &lt;handlers&gt;
-        &lt;add name="PluploadHandler" path="Plupload.axd" verb="POST" type="XperiCode.PluploadMvc.PluploadHandler, XperiCode.PluploadMvc" /&gt;
-    &lt;/handlers&gt;
-&lt;/system.webServer&gt;
-</code></pre>
+<div class="highlight highlight-xml"><pre>&lt;<span class="pl-ent">system</span>.webServer&gt;
+    &lt;<span class="pl-ent">handlers</span>&gt;
+        &lt;<span class="pl-ent">add</span> <span class="pl-e">name</span>=<span class="pl-s1"><span class="pl-pds">"</span>PluploadHandler<span class="pl-pds">"</span></span> <span class="pl-e">path</span>=<span class="pl-s1"><span class="pl-pds">"</span>Plupload.axd<span class="pl-pds">"</span></span> <span class="pl-e">verb</span>=<span class="pl-s1"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span> <span class="pl-e">type</span>=<span class="pl-s1"><span class="pl-pds">"</span>XperiCode.PluploadMvc.PluploadHandler, XperiCode.PluploadMvc<span class="pl-pds">"</span></span> /&gt;
+    &lt;/<span class="pl-ent">handlers</span>&gt;
+&lt;/<span class="pl-ent">system</span>.webServer&gt;</pre></div>
 
-<p>This <code>HttpHandler</code> can be used to handle file uploads from <a href="http://plupload.com">Plupload</a>. To be able to retrieve the uploaded files later, <strong>you need to pass the HttpHandler a reference in the form of a Guid</strong> (this will soon be a string in v0.3.0 for more flexibility). So in javascript, the url option passed to the plupload.Uploader constructor should be something like this:</p>
+<p>This <code>HttpHandler</code> can be used to handle file uploads from <a href="http://plupload.com">Plupload</a>. To be able to retrieve the uploaded files later, <strong>you need to pass the HttpHandler a reference in the form of a String (I would recommend a Guid)</strong>. So in javascript, the url option passed to the plupload.Uploader constructor should be something like this:</p>
 
-<pre><code>var uploader = new plupload.Uploader({
-    // ...
-    url : "/plupload.axd?reference=13095a38-6841-4204-a2cc-61135d812436",
-    // ...
-});
-</code></pre>
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> uploader = <span class="pl-s">new</span> plupload.Uploader({
+    <span class="pl-c">// ...</span>
+    url : <span class="pl-s1"><span class="pl-pds">"</span>/plupload.axd?reference=13095a38-6841-4204-a2cc-61135d812436<span class="pl-pds">"</span></span>,
+    <span class="pl-c">// ...</span>
+});</pre></div>
 
-<p>The <code>PluploadHandler</code> will now handle the file uploads (it handles <a href="http://plupload.com/docs/Chunking">chunked uploads</a> as well as normal uploads), and saves the files to a temporary folder at <code>~/App_Data/PluploadMvc/13095a38-6841-4204-a2cc-61135d812436/</code>.</p>
+<p>The URL to the upload handler can be generated in a View (for example to render in a data-attribute to be read by your javascript) using the included UrlHelper extension methods:</p>
+
+<div class="highlight highlight-c#"><pre>@<span class="pl-k">using</span> XperiCode.PluploadMvc
+
+&lt;div data-plupload-url=<span class="pl-s1"><span class="pl-pds">"</span>@Url.PluploadHandler(<span class="pl-pds">"</span></span>13095a38-<span class="pl-c1">6841</span>-<span class="pl-c1">4204</span>-a2cc-61135d812436<span class="pl-s1"><span class="pl-pds">"</span>)<span class="pl-pds">"</span></span>&gt;
+    ...
+&lt;/div&gt;
+</pre></div>
+
+<p>When you change the url of the upload handler (default is ~/Plupload.axd), you can configure this UrlHelper extension method to output another url using the <code>PluploadConfiguration</code> class.</p>
+
+<p>The <code>PluploadHandler</code> will now handle the file uploads (it handles <a href="http://plupload.com/docs/Chunking">chunked uploads</a> as well as normal uploads), and saves the files to a temporary folder at <code>~/App_Data/PluploadMvc/13095a38-6841-4204-a2cc-61135d812436/</code>. This folder is configurable using the static <code>PluploadConfiguration</code> class.</p>
 
 <h4>
-<a name="pluploadcontext" class="anchor" href="#pluploadcontext"><span class="octicon octicon-link"></span></a>PluploadContext</h4>
+<a id="pluploadcontext" class="anchor" href="#pluploadcontext" aria-hidden="true"><span class="octicon octicon-link"></span></a>PluploadContext</h4>
 
 <p>To easily retrieve the uploaded files, you can use <code>PluploadContext</code>. You should not create an instance of this class yourself. Instead, get it off <code>HttpContextBase</code> by using the provided extension method <code>GetPluploadContext()</code>. For example, within a <code>Controller</code> you could use:</p>
 
-<pre><code>using XperiCode.PluploadMvc;
-// ...
-var pluploadContext = HttpContext.GetPluploadContext();
-</code></pre>
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> XperiCode.PluploadMvc;
+<span class="pl-c">// ...</span>
+<span class="pl-k">var</span> pluploadContext = HttpContext.GetPluploadContext();</pre></div>
 
 <p>After acquiring the <code>PluploadContext</code>, you can use the <code>GetFiles()</code> method to retrieve the files that were uploaded using the specific <code>reference</code>:</p>
 
-<pre><code>var reference = Guid.Parse("13095a38-6841-4204-a2cc-61135d812436");
-var uploadedFiles = pluploadContext.GetFiles(reference);
-</code></pre>
+<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> reference = Guid.Parse(<span class="pl-s1"><span class="pl-pds">"</span>13095a38-6841-4204-a2cc-61135d812436<span class="pl-pds">"</span></span>);
+<span class="pl-k">var</span> uploadedFiles = pluploadContext.GetFiles(reference);</pre></div>
 
 <p><code>uploadedFiles</code> will now contain a list of <code>PluploadFile</code> objects (inheriting <code>HttpPostedFileBase</code>) for you to work with. When you're done with the files (for example, you saved them to a database), you can use the <code>DeleteFiles()</code> method to delete them from the temporary folder. If you don't, they will keep being returned when calling <code>GetFiles()</code> using the same reference.</p>
 
-<pre><code>pluploadContext.DeleteFiles(reference);
-</code></pre>
+<div class="highlight highlight-c#"><pre>pluploadContext.DeleteFiles(reference);</pre></div>
 
 <p><code>PluploadContext</code> also has a static method <code>CleanupFiles()</code> you could use on application startup, to cleanup the temporary <code>~/App_Data/PluploadMvc/</code> folder. When using the <a href="https://www.nuget.org/packages/XperiCode.PluploadMvc">NuGet package</a> to install <code>PluploadMvc</code>, this is added to your application automatically by adding <code>PluploadMvcConfig.cs</code> to the <code>App_Start</code> folder and using <a href="https://www.nuget.org/packages/WebActivatorEx/2.0.0">WebActivatorEx</a> to execute it on application startup.</p>
 
-<pre><code>using XperiCode.PluploadMvc;
-// ...
-PluploadContext.CleanupFiles();
-</code></pre>
+<div class="highlight highlight-c#"><pre><span class="pl-k">using</span> XperiCode.PluploadMvc;
+<span class="pl-c">// ...</span>
+PluploadContext.CleanupFiles();</pre></div>
 
 <h4>
-<a name="pluploadmodelbinder" class="anchor" href="#pluploadmodelbinder"><span class="octicon octicon-link"></span></a>PluploadModelBinder</h4>
+<a id="pluploadmodelbinder" class="anchor" href="#pluploadmodelbinder" aria-hidden="true"><span class="octicon octicon-link"></span></a>PluploadModelBinder</h4>
 
 <p>Examples of a full integration using a ViewModel and ModelBinder are coming, and this can already be found in the <a href="https://github.com/mwijnands/PluploadMvc/tree/master/PluploadMvc.Sample">sample project on GitHub</a>.</p>
 
 <h2>
-<a name="unit-testing" class="anchor" href="#unit-testing"><span class="octicon octicon-link"></span></a>(Unit) testing</h2>
+<a id="unit-testing" class="anchor" href="#unit-testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>(Unit) testing</h2>
 
 <p>When using <code>PluploadMvc</code>, you can still test your controllers. The <code>HttpContextBase</code> extension method <code>GetPluploadContext()</code> returns an <code>IPluploadContext</code>. To make this return a <code>Mock</code>, you can use the extension method <code>SetPluploadContext()</code> first to set your <code>Mock</code>, so that when <code>GetPluploadContext()</code> is called in the code under test, it will return your <code>Mock</code>. Examples of this can be found in the tests of this project on <a href="https://github.com/mwijnands/PluploadMvc">GitHub</a>.</p>
 
 <h2>
-<a name="release-notes" class="anchor" href="#release-notes"><span class="octicon octicon-link"></span></a>Release notes</h2>
+<a id="release-notes" class="anchor" href="#release-notes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Release notes</h2>
 
 <h4>
-<a name="v020" class="anchor" href="#v020"><span class="octicon octicon-link"></span></a>v0.2.0</h4>
+<a id="v030" class="anchor" href="#v030" aria-hidden="true"><span class="octicon octicon-link"></span></a>v0.3.0</h4>
+
+<ul>
+<li>Reference (to upload and retrieve files with) is now a string for more flexibility.</li>
+<li>Added an UrlHelper extension method to retrieve the URL to the upload handler.</li>
+<li>Introduced the PluploadConfiguration class, to configure the upload path and pluploadhandler path.</li>
+<li>Fixed thrown IOException when uploading chunked file and the file already exists.</li>
+</ul>
+
+<h4>
+<a id="v020" class="anchor" href="#v020" aria-hidden="true"><span class="octicon octicon-link"></span></a>v0.2.0</h4>
 
 <ul>
 <li>Added support for <a href="http://plupload.com/docs/Chunking">chunked uploads</a>
@@ -126,21 +141,21 @@ PluploadContext.CleanupFiles();
 </ul>
 
 <h4>
-<a name="v011" class="anchor" href="#v011"><span class="octicon octicon-link"></span></a>v0.1.1</h4>
+<a id="v011" class="anchor" href="#v011" aria-hidden="true"><span class="octicon octicon-link"></span></a>v0.1.1</h4>
 
 <ul>
 <li>Changed Microsoft.AspNet.Mvc dependencies to 5.0.0 (5.2.0 was unnecessary)</li>
 </ul>
 
 <h4>
-<a name="v010" class="anchor" href="#v010"><span class="octicon octicon-link"></span></a>v0.1.0</h4>
+<a id="v010" class="anchor" href="#v010" aria-hidden="true"><span class="octicon octicon-link"></span></a>v0.1.0</h4>
 
 <ul>
 <li>Initial release</li>
 </ul>
 
 <h2>
-<a name="collaboration" class="anchor" href="#collaboration"><span class="octicon octicon-link"></span></a>Collaboration</h2>
+<a id="collaboration" class="anchor" href="#collaboration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Collaboration</h2>
 
 <p>Please report issues if you find any. Pull requests are welcome for documentation and code.</p>
       </section>
@@ -154,7 +169,17 @@ PluploadContext.CleanupFiles();
       </footer>
     </div>
 
-    
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-58216824-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
 
   </body>
 </html>
