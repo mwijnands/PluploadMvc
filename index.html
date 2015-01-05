@@ -96,7 +96,7 @@
 
 <p>After acquiring the <code>PluploadContext</code>, you can use the <code>GetFiles()</code> method to retrieve the files that were uploaded using the specific <code>reference</code>:</p>
 
-<div class="highlight highlight-c#"><pre><span class="pl-k">var</span> reference = Guid.Parse(<span class="pl-s1"><span class="pl-pds">"</span>13095a38-6841-4204-a2cc-61135d812436<span class="pl-pds">"</span></span>);
+<div class="highlight highlight-c#"><pre><span class="pl-st">string</span> reference = <span class="pl-s1"><span class="pl-pds">"</span>13095a38-6841-4204-a2cc-61135d812436<span class="pl-pds">"</span></span>;
 <span class="pl-k">var</span> uploadedFiles = pluploadContext.GetFiles(reference);</pre></div>
 
 <p><code>uploadedFiles</code> will now contain a list of <code>PluploadFile</code> objects (inheriting <code>HttpPostedFileBase</code>) for you to work with. When you're done with the files (for example, you saved them to a database), you can use the <code>DeleteFiles()</code> method to delete them from the temporary folder. If you don't, they will keep being returned when calling <code>GetFiles()</code> using the same reference.</p>
