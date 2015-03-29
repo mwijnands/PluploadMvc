@@ -89,6 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PluploadFileCollectionTests.cs" />
     <Compile Include="PluploadExtensionsTests.cs" />
+    <Compile Include="CleanupFilesAttributeTests.cs" />
     <Compile Include="UrlHelperExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>

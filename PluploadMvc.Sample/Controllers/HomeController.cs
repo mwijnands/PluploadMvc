@@ -46,6 +46,7 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CleanupFiles]
         public ActionResult SubmitForm2(SampleForm2Model model)
         {
             if (!ModelState.IsValid)
@@ -55,11 +56,6 @@ namespace XperiCode.PluploadMvc.Sample.Controllers
 
             var files1 = model.Files;
             var files2 = model.OtherFiles;
-
-            var pluploadContext = HttpContext.GetPluploadContext();
-
-            pluploadContext.DeleteFiles(model.Files);
-            pluploadContext.DeleteFiles(model.OtherFiles);
 
             return RedirectToAction("SampleForm2");
         }
