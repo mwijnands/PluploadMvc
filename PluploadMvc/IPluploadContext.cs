@@ -12,5 +12,8 @@ namespace XperiCode.PluploadMvc
         IEnumerable<HttpPostedFileBase> GetFiles(string reference);
         void DeleteFiles(string reference);
         void DeleteFiles(PluploadFileCollection collection);
+        void DeleteFile(string reference, string fileName);
+        void DeleteFile(PluploadFileCollection collection, string fileName);
+        void DeleteFile(PluploadFile file);
     }
 }
