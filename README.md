@@ -92,7 +92,7 @@ When using `PluploadMvc`, you can still test your controllers. The `HttpContextB
 
 ## Release notes
 
-#### v0.4.0
+#### v0.4.1
 
 - Added an ActionFilter to be used when you want to automatically delete files after post action executed.
 - Added DeleteFile methods to PluploadContext to allow delete a specific file.
