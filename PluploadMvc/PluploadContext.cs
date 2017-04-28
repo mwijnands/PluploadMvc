@@ -148,6 +148,48 @@ namespace XperiCode.PluploadMvc
             this.DeleteFiles(collection.Reference);
         }
 
+        public void DeleteFile(string reference, string fileName)
+        {
+            GuardInvalidReference(reference);
+
+            var files = _files.Where(f => f.Value.Reference == reference && f.Value.FileName == fileName).ToArray();
+            foreach (var file in files)
+            {
+                file.Value.Dispose();
+                _files.Remove(file);
+            }
+
+            string uploadPath = GetUploadPath(reference);
+            if (!Directory.Exists(uploadPath))
+            {
+                return;
+            }
+
+            var fileNamePaths = Directory.GetFiles(uploadPath).Where(p => !p.EndsWith(PluploadFile.ContentTypeExtension) && !p.EndsWith(PluploadFile.PartialFileExtension));
+            foreach (var fileNamePath in fileNamePaths.Where(x => Path.GetFileName(x) == fileName))
+            {
+                try
+                {
+                    File.Delete(fileNamePath);
+                    File.Delete(string.Concat(fileNamePath, PluploadFile.ContentTypeExtension));
+                }
+                catch (IOException)
+                {
+                    // Files could always be in use by virusscanners and what not.. So ignore it.
+                }
+            }
+        }
+
+        public void DeleteFile(PluploadFileCollection collection, string fileName)
+        {
+            DeleteFile(collection.Reference, fileName);
+        }
+
+        public void DeleteFile(PluploadFile file)
+        {
+            DeleteFile(file.Reference, file.FileName);
+        }
+
         public static void CleanupFiles()
         {
             string uploadPath = PluploadConfiguration.UploadPath;

@@ -176,3 +176,4 @@ FakesAssemblies/
 /PluploadMvc.Sample/App_Data/PluploadMvc
 /NuGet/*.nupkg
 
+/.vs

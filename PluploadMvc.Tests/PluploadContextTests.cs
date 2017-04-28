@@ -133,6 +133,58 @@ namespace XperiCode.PluploadMvc.Tests
             }
         }
 
+        [TestMethod]
+        public void DeleteFile_Should_Dispose_And_Delete_File()
+        {
+            string uploadPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
+
+            var httpServerUtilityMock = new Mock<HttpServerUtilityBase>();
+            httpServerUtilityMock.Setup(u => u.MapPath(PluploadConfiguration.UploadPath))
+                .Returns(uploadPath);
+
+            var httpContextMock = new Mock<HttpContextBase>();
+            httpContextMock.SetupGet(c => c.Server).Returns(httpServerUtilityMock.Object);
+
+            var httpPostedFile1Mock = new Mock<HttpPostedFileBase>();
+            httpPostedFile1Mock.SetupGet(f => f.FileName).Returns("FileName1.Extension");
+            httpPostedFile1Mock.SetupGet(f => f.ContentLength).Returns(2);
+            httpPostedFile1Mock.SetupGet(f => f.ContentType).Returns("application/pdf");
+
+            var httpPostedFile2Mock = new Mock<HttpPostedFileBase>();
+            httpPostedFile2Mock.SetupGet(f => f.FileName).Returns("FileName2.Extension");
+            httpPostedFile2Mock.SetupGet(f => f.ContentLength).Returns(2);
+            httpPostedFile2Mock.SetupGet(f => f.ContentType).Returns("application/pdf");
+
+            using (var stream1 = new MemoryStream(new byte[] { 111, 222 }))
+            using (var stream2 = new MemoryStream(new byte[] { 111, 222 }))
+            {
+                httpPostedFile1Mock.SetupGet(f => f.InputStream).Returns(stream1);
+                httpPostedFile2Mock.SetupGet(f => f.InputStream).Returns(stream2);
+
+                var reference = Guid.NewGuid().ToString();
+
+                using (var pluploadContext = new PluploadContext(httpContextMock.Object))
+                {
+                    pluploadContext.SaveFile(httpPostedFile1Mock.Object, reference);
+                    pluploadContext.SaveFile(httpPostedFile2Mock.Object, reference);
+
+                    pluploadContext.DeleteFile(reference, "FileName1.Extension");
+
+                    Assert.AreEqual(1, pluploadContext.GetFiles(reference).Count());
+                    Assert.AreEqual(2, Directory.GetFiles(pluploadContext.GetUploadPath(reference)).Count());
+                }
+            }
+
+            try
+            {
+                Directory.Delete(uploadPath, true);
+            }
+            catch (IOException)
+            {
+                // Files could always be in use by virusscanners and what not.. So ignore it.
+            }
+        }
+
         [TestMethod, ExpectedException(typeof(ArgumentException))]
         public void Should_Throw_ArgumentException_When_Reference_Contains_Invalid_FileName_Chars()
         {
